@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import { candidateDeleteApi, candidateGetApi } from "../api/candidateApi";
 import type { Candidate } from "../types/candidate";
+import { useNavigate } from "react-router-dom";
 
 const AllCandidate = () => {
   const [candidates, setCandidates] = useState<Candidate[]>([]);
+
+  const navigate = useNavigate();
+
   useEffect(() => {
     const fetchCandidate = async (): Promise<void> => {
       try {
@@ -31,7 +35,7 @@ const AllCandidate = () => {
   };
 
   return (
-    <div className="p-6  mt-5 lg:mt-10 overflow-x-auto w-full max-w-6xl">
+    <div className="p-4 overflow-x-auto w-full max-w-6xl bg-white shadow-lg rounded-lg  flex flex-col my-2">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-3">
         <h2 className="text-xl font-semibold text-gray-800">All Candidates</h2>
         <input
@@ -79,7 +83,12 @@ const AllCandidate = () => {
                   <td className="p-3">{candidate.duration}</td>
                   <td className="p-3">
                     <div className="flex gap-3 justify-around">
-                      <button className="px-3 py-2 bg-green-600 rounded-lg">
+                      <button
+                        className="px-3 py-2 bg-green-600 rounded-lg hover:cursor-pointer hover:bg-green-500"
+                        onClick={() =>
+                          navigate("/", { state: { candidates: candidate } })
+                        }
+                      >
                         Edit
                       </button>
                       <button

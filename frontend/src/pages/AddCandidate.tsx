@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { type CandidateFormData } from "../types/candidate";
-import { candidateAddApi } from "../api/candidateApi";
-import { useNavigate } from "react-router-dom";
+import { candidateAddApi, candidateEditApi } from "../api/candidateApi";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const AddCandidate = () => {
   const [formData, setFormData] = useState<CandidateFormData>({
@@ -14,6 +14,15 @@ const AddCandidate = () => {
   });
 
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const isEditMode = location.state?.candidates || null;
+
+  useEffect(() => {
+    if (isEditMode) {
+      setFormData(isEditMode);
+    }
+  }, [isEditMode]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -28,21 +37,30 @@ const AddCandidate = () => {
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
     try {
-      const data = await candidateAddApi(formData);
-      alert(data.message);
+      if (isEditMode) {
+        const data = await candidateEditApi(isEditMode._id, formData);
+        alert(data.message);
+      } else {
+        const data = await candidateAddApi(formData);
+        alert(data.message);
+      }
       navigate("/all-candidate");
     } catch (error: any) {
       alert(error.response?.data?.error);
     }
   };
   return (
-    <div className="flex flex-col bg-white shadow-xl px-10 py-10 rounded-2xl my-10 w-full max-w-4xl">
+    <div className="flex flex-col bg-white shadow-xl px-10 py-4 rounded-2xl my-10 w-full max-w-4xl">
       <div className="text-center pb-6">
-        <h2 className="text-3xl font-bold">Add Candidate</h2>
+        <h2 className="text-3xl font-bold">
+          {isEditMode ? "Edit Candidate" : "Add Candidate"}
+        </h2>
       </div>
       <form onSubmit={handleSubmit} className="grid lg:grid-cols-2 gap-6">
         <div className="flex flex-col gap-2">
-          <label className="subpixel-antialiased text-lg font-stretch-expanded uppercase">Name</label>
+          <label className="subpixel-antialiased text-lg font-stretch-expanded uppercase">
+            Name
+          </label>
           <input
             required
             type="text"
@@ -55,7 +73,9 @@ const AddCandidate = () => {
         </div>
 
         <div className="flex flex-col  gap-2">
-          <label className="subpixel-antialiased text-lg font-stretch-expanded uppercase">Email</label>
+          <label className="subpixel-antialiased text-lg font-stretch-expanded uppercase">
+            Email
+          </label>
           <input
             required
             type="email"
@@ -68,7 +88,9 @@ const AddCandidate = () => {
         </div>
 
         <div className="flex flex-col gap-2">
-          <label className="subpixel-antialiased text-lg font-stretch-expanded uppercase">Phone</label>
+          <label className="subpixel-antialiased text-lg font-stretch-expanded uppercase">
+            Phone
+          </label>
           <input
             required
             type="tel"
@@ -80,7 +102,9 @@ const AddCandidate = () => {
           />
         </div>
         <div className="flex flex-col gap-2">
-          <label className="subpixel-antialiased text-lg font-stretch-expanded uppercase">Status</label>
+          <label className="subpixel-antialiased text-lg font-stretch-expanded uppercase">
+            Status
+          </label>
           <select
             required
             name="status"
@@ -97,19 +121,23 @@ const AddCandidate = () => {
         </div>
 
         <div className="flex flex-col gap-2">
-          <label className="subpixel-antialiased text-lg font-stretch-expanded uppercase">Joining Date</label>
+          <label className="subpixel-antialiased text-lg font-stretch-expanded uppercase">
+            Joining Date
+          </label>
           <input
             required
             type="date"
             name="joiningDate"
-            value={formData.joiningDate}
+            value={formData.joiningDate.slice(0, 10)}
             onChange={handleChange}
             className="border p-2 rounded "
           />
         </div>
 
         <div className="flex flex-col gap-2">
-          <label className="subpixel-antialiased text-lg font-stretch-expanded uppercase">Duration</label>
+          <label className="subpixel-antialiased text-lg font-stretch-expanded uppercase">
+            Duration
+          </label>
           <input
             required
             type="text"
@@ -125,7 +153,7 @@ const AddCandidate = () => {
             type="submit"
             className="bg-cyan-600 px-6 py-2 rounded-lg text-white text-lg hover:cursor-pointer hover:bg-cyan-500"
           >
-            Add
+            {isEditMode ? "Edit" : "Add"}
           </button>
         </div>
       </form>

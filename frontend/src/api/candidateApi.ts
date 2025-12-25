@@ -23,3 +23,8 @@ export const candidateDeleteApi = async (
   const res = await axios.delete(`${API_URL}/candidate/${id}`);
   return res.data;
 };
+
+export const candidateEditApi = async (id:string, data:CandidatePayload):Promise<Candidate & MessageResponse> => {
+  const res = await axios.put(`${API_URL}/candidate/${id}`,data);
+  return res.data
+}
