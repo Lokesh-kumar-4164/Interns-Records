@@ -44,13 +44,13 @@ export const getCandidateController = async (
   res: Response
 ): Promise<void> => {
   try {
-    const page = Number(req.query.page) || 1;
-    const limit = Number(req.query.limit) || 5;
+    const page = Math.max(Number(req.query.page) || 1, 1);
+    const limit = Math.max(Number(req.query.limit) || 5, 1);
+
+    const skip = (page - 1) * limit;
 
     //Pagination
-    const candidate = await Candidate.find()
-      .skip((page - 1) * limit)
-      .limit(Number(limit));
+    const candidate = await Candidate.find().skip(skip).limit(Number(limit));
 
     const total = await Candidate.countDocuments();
 
