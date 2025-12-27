@@ -21,6 +21,7 @@ const AllCandidate = () => {
       try {
         const data = await candidateGetApi(page, limit);
         setCandidates(data.candidate || []);
+        
         setPagination((prev) => ({
           ...prev,
           ...(data.pagination || {}),
