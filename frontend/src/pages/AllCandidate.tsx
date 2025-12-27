@@ -14,6 +14,11 @@ const AllCandidate = () => {
     totalPages: 1,
   });
 
+  const totalPages =
+    Number.isInteger(pagination.totalPages) && pagination.totalPages > 0
+      ? pagination.totalPages
+      : 1;
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,16 +27,18 @@ const AllCandidate = () => {
         const data = await candidateGetApi(page, limit);
         setCandidates(data.candidate || []);
 
-        setPagination((prev) => ({
-          ...prev,
-          ...(data.pagination || {}),
-        }));
+        setPagination({
+          page: Number(data.pagination?.page) || 1,
+          limit: Number(data.pagination?.limit) || limit,
+          totalPages: Number(data.pagination?.totalPages) || 1,
+          total: Number(data.pagination?.total) || 0,
+        });
       } catch (error) {
         console.error("Error fetching candidate", error);
       }
     };
     fetchCandidate();
-  }, [page, limit]);
+  }, [page]);
 
   const handleDelete = async (id: string): Promise<void> => {
     try {
@@ -114,7 +121,7 @@ const AllCandidate = () => {
               ))
             ) : (
               <tr>
-                <td className="text-center p-3 text-gray-500">
+                <td colSpan={7} className="text-center p-3 text-gray-500">
                   No candidates found
                 </td>
               </tr>
@@ -133,7 +140,7 @@ const AllCandidate = () => {
           Prev
         </button>
 
-        {Array.from({ length: pagination.totalPages || 1 }, (_, i) => (
+        {Array.from({ length: totalPages }, (_, i) => (
           <button
             key={i + 1}
             onClick={() => setPage(i + 1)}
@@ -146,6 +153,7 @@ const AllCandidate = () => {
             {i + 1}
           </button>
         ))}
+
         <button
           disabled={page === pagination.totalPages}
           onClick={() => setPage((p) => p + 1)}
