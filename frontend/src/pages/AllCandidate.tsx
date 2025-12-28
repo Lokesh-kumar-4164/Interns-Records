@@ -25,17 +25,18 @@ const AllCandidate = () => {
     const fetchCandidate = async (): Promise<void> => {
       try {
         const data = await candidateGetApi(page, limit);
-        setCandidates(data.candidate || []);
-console.log(data.candidate);
+        console.log("Full API response:", data);
 
+        const candidates = data?.candidate || [];
+        const pagination = data?.pagination || {};
+
+        setCandidates(candidates);
         setPagination({
-          page: Number(data.pagination?.page) || 1,
-          limit: Number(data.pagination?.limit) || limit,
-          totalPages: Number(data.pagination?.totalPages) || 1,
-          total: Number(data.pagination?.total) || 0,
+          page: Number(pagination?.page) || 1,
+          limit: Number(pagination?.limit) || limit,
+          totalPages: Number(pagination?.totalPages) || 1,
+          total: Number(pagination?.total) || 0,
         });
-        console.log(data.pagination);
-        
       } catch (error) {
         console.error("Error fetching candidate", error);
       }
