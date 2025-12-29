@@ -25,7 +25,6 @@ const AllCandidate = () => {
     const fetchCandidate = async (): Promise<void> => {
       try {
         const data = await candidateGetApi(page, limit);
-        console.log("Full API response:", data);
 
         const candidates = data?.candidate || [];
         const pagination = data?.pagination || {};
@@ -98,7 +97,8 @@ const AllCandidate = () => {
                     {candidate.joiningDate &&
                     !isNaN(Date.parse(candidate.joiningDate))
                       ? new Date(candidate.joiningDate).toLocaleDateString(
-                          "en-US"
+                          "en-US",
+                          { year: "numeric", month: "long", day: "numeric" }
                         )
                       : "N/A"}
                   </td>
