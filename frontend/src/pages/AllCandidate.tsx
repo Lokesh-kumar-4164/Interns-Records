@@ -67,8 +67,8 @@ const AllCandidate = () => {
   }
 
   return (
-    <div className="w-full h-screen flex flex-col items-center">
-      <div className="p-4 overflow-x-auto w-full max-w-6xl bg-white shadow-lg rounded-lg  flex flex-col my-4 overflow-y-auto">
+    <div className="w-full h-screen flex flex-col items-center px-4">
+      <div className="p-4 overflow-x-auto w-full  bg-white shadow-lg rounded-lg  flex flex-col my-4 overflow-y-auto">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-3">
           <h2 className="text-xl font-semibold text-gray-800">
             All Candidates
@@ -95,6 +95,8 @@ const AllCandidate = () => {
                 <th className="p-3">Duration</th>
                 <th className="p-3">Job Board</th>
                 <th className="p-3">Job Posted Date</th>
+                <th className="p-3">Posted By</th>
+                <th className="p-3">Applied Date</th>
                 <th className="p-3">Actions</th>
               </tr>
             </thead>
@@ -102,7 +104,10 @@ const AllCandidate = () => {
             <tbody>
               {candidates?.length > 0 ? (
                 candidates.map((candidate) => (
-                  <tr key={candidate._id} className="border-b hover:bg-gray-50 ">
+                  <tr
+                    key={candidate._id}
+                    className="border-b hover:bg-gray-50 "
+                  >
                     <td className="p-3">{candidate.name}</td>
                     <td className="p-3">{candidate.email}</td>
                     <td className="p-3">{candidate.phone}</td>
@@ -117,7 +122,8 @@ const AllCandidate = () => {
                         : "N/A"}
                     </td>
                     <td className="p-3">{candidate.duration}</td>
-                    <td className="p-3">{candidate.jobBoard}</td> <td className="p-3">
+                    <td className="p-3">{candidate.jobBoard}</td>
+                    <td className="p-3">
                       {candidate.jobPostedDate &&
                       !isNaN(Date.parse(candidate.jobPostedDate))
                         ? new Date(candidate.jobPostedDate).toLocaleDateString(
@@ -126,6 +132,19 @@ const AllCandidate = () => {
                           )
                         : "N/A"}
                     </td>
+
+                    <td className="p-3">{candidate.jobPostedBy}</td>
+
+                    <td className="p-3">
+                      {candidate.appliedDate &&
+                      !isNaN(Date.parse(candidate.appliedDate))
+                        ? new Date(candidate.appliedDate).toLocaleDateString(
+                            "en-US",
+                            { year: "numeric", month: "long", day: "numeric" }
+                          )
+                        : "N/A"}
+                    </td>
+
                     <td className="p-3">
                       <div className="flex gap-3 justify-around">
                         <button

@@ -7,6 +7,8 @@ export interface CandidateFormData {
   duration: string;
   jobBoard: string;
   jobPostedDate: string;
+  appliedDate: string;
+  jobPostedBy: string;
 }
 
 export interface CandidatePayload {
@@ -18,6 +20,8 @@ export interface CandidatePayload {
   duration: string;
   jobBoard: string;
   jobPostedDate: string;
+  appliedDate: string;
+  jobPostedBy: string;
 }
 
 export interface Candidate {
@@ -32,6 +36,8 @@ export interface Candidate {
   duration: string;
   jobBoard: string;
   jobPostedDate: string;
+  appliedDate: string;
+  jobPostedBy: string;
 }
 
 export interface MessageResponse {

@@ -13,6 +13,8 @@ const AddCandidate = () => {
     duration: "",
     jobBoard: "",
     jobPostedDate: "",
+    appliedDate: "",
+    jobPostedBy: "",
   });
 
   const navigate = useNavigate();
@@ -175,6 +177,35 @@ const AddCandidate = () => {
             type="date"
             name="jobPostedDate"
             value={formData.jobPostedDate.slice(0, 10)}
+            onChange={handleChange}
+            className="border p-2 rounded "
+          />
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <label className="subpixel-antialiased text-lg font-stretch-expanded uppercase">
+            Applied Date
+          </label>
+          <input
+            required
+            type="date"
+            name="appliedDate"
+            value={formData.appliedDate.slice(0, 10)}
+            onChange={handleChange}
+            className="border p-2 rounded "
+          />
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <label className="subpixel-antialiased text-lg font-stretch-expanded uppercase">
+            Job Posted By
+          </label>
+          <input
+            required
+            type="text"
+            placeholder="posted by"
+            name="jobPostedBy"
+            value={formData.jobPostedBy}
             onChange={handleChange}
             className="border p-2 rounded "
           />
