@@ -16,6 +16,8 @@ interface ICandidate {
   duration: string;
   jobBoard: string;
   jobPostedDate: Date;
+  appliedDate: Date;
+  jobPostedBy: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -55,6 +57,14 @@ const candidateSchema = new Schema<ICandidate>(
     },
     jobPostedDate: {
       type: Date,
+      required: true,
+    },
+    appliedDate: {
+      type: Date,
+      required: true,
+    },
+    jobPostedBy: {
+      type: String,
       required: true,
     },
   },

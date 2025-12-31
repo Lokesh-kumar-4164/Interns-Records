@@ -16,6 +16,8 @@ export const addCandidateController = async (
       duration,
       jobBoard,
       jobPostedDate,
+      appliedDate,
+      jobPostedBy,
     } = req.body;
 
     if (
@@ -26,7 +28,9 @@ export const addCandidateController = async (
       !joiningDate ||
       !duration ||
       !jobBoard ||
-      !jobPostedDate
+      !jobPostedDate ||
+      !appliedDate ||
+      !jobPostedBy
     ) {
       res.status(400).json({ message: "All fields are required" });
       return;
@@ -41,6 +45,8 @@ export const addCandidateController = async (
       duration,
       jobBoard,
       jobPostedDate,
+      appliedDate,
+      jobPostedBy,
     });
 
     res
@@ -118,6 +124,8 @@ export const updateCandidateController = async (
       duration,
       jobBoard,
       jobPostedDate,
+      appliedDate,
+      jobPostedBy,
     } = req.body;
 
     const candidate = {
@@ -129,6 +137,8 @@ export const updateCandidateController = async (
       duration,
       jobBoard,
       jobPostedDate,
+      appliedDate,
+      jobPostedBy,
     };
 
     const updateCandidate = await Candidate.findByIdAndUpdate(id, candidate, {
