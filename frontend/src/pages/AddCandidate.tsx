@@ -121,6 +121,7 @@ const AddCandidate = () => {
             <option value="busy">Busy</option>
             <option value="no response">No Response</option>
             <option value="no incoming service">No Incoming Service</option>
+            <option value="rejected">Rejected</option>
           </select>
         </div>
 
