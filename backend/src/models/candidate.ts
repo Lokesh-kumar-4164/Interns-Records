@@ -4,7 +4,8 @@ type CandidateStatus =
   | "busy"
   | "interested"
   | "no response"
-  | "no incoming service";
+  | "no incoming service"
+  | "rejected";
 
 interface ICandidate {
   _id?: Types.ObjectId;
@@ -40,7 +41,13 @@ const candidateSchema = new Schema<ICandidate>(
     },
     status: {
       type: String,
-      enum: ["busy", "interested", "no response", "no incoming service"],
+      enum: [
+        "busy",
+        "interested",
+        "no response",
+        "no incoming service",
+        "rejected",
+      ],
       required: true,
     },
     joiningDate: {
