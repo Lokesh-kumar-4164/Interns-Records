@@ -71,7 +71,7 @@ const AllCandidate = () => {
   }
 
   return (
-    <div className="w-full h-screen flex flex-col items-center px-4">
+    <div className="w-full h-screen flex flex-col items-center px-4 ">
       <div className="p-4 overflow-x-auto w-full  bg-white shadow-lg rounded-lg  flex flex-col my-4">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-3">
           <h2 className="text-xl font-semibold text-gray-800">
@@ -87,7 +87,7 @@ const AllCandidate = () => {
         </div>
 
         {/* Table */}
-        <div className="bg-white rounded-lg shadow ">
+        <div className="bg-white rounded-lg">
           <table className="w-full border-collapse">
             <thead>
               <tr className="bg-cyan-600 text-white">
@@ -181,36 +181,29 @@ const AllCandidate = () => {
         </div>
 
         {/* Pagination */}
-        <div className="flex justify-center itmes-center mt-4 space-x-2">
-          <button
-            disabled={page === 1}
-            onClick={() => setPage((p) => p - 1)}
-            className="px-3 py-1 bg-gray-200 rounded-lg disabled:opacity-50"
-          >
-            Prev
-          </button>
 
-          {Array.from({ length: totalPages }, (_, i) => (
+        <div className="w-full mt-4 flex justify-center">
+          <div className="flex border rounded-lg overflow-hidden">
             <button
-              key={i + 1}
-              onClick={() => setPage(i + 1)}
-              className={`px-3 py-1 rounded-lg ${
-                page === i + 1
-                  ? "bg-cyan-600 text-white"
-                  : "bg-gray-200 hover:bg-gray-300"
-              }`}
+              className="px-4 py-2 bg-gray-200 disabled:opacity-50 border-r"
+              disabled={page === 1}
+              onClick={() => setPage((p) => p - 1)}
             >
-              {i + 1}
+              «
             </button>
-          ))}
 
-          <button
-            disabled={page === totalPages}
-            onClick={() => setPage((p) => p + 1)}
-            className="bg-gray-200 rounded-lg disabled:opacity-50 px-3 py-1"
-          >
-            Next
-          </button>
+            <button className="px-4 py-2 bg-gray-100 text-sm font-medium">
+              Page {page} of {totalPages}
+            </button>
+
+            <button
+              className="px-4 py-2 bg-gray-200 disabled:opacity-50 border-l"
+              disabled={page === totalPages}
+              onClick={() => setPage((p) => p + 1)}
+            >
+              »
+            </button>
+          </div>
         </div>
       </div>
     </div>
