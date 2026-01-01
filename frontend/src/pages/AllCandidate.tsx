@@ -115,7 +115,7 @@ const AllCandidate = () => {
                     <td className="p-3">{candidate.name}</td>
                     <td className="p-3">{candidate.email}</td>
                     <td className="p-3">{candidate.phone}</td>
-                    <td className="p-3">{candidate.status}</td>
+                    <td className="p-3">{candidate?.status || "N/A"}</td>
                     <td className="p-3">
                       {candidate.joiningDate &&
                       !isNaN(Date.parse(candidate.joiningDate))

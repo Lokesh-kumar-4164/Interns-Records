@@ -110,9 +110,8 @@ const AddCandidate = () => {
             Status
           </label>
           <select
-            required
             name="status"
-            value={formData.status}
+            value={formData?.status || ""}
             onChange={handleChange}
             className="border p-2 rounded"
           >
