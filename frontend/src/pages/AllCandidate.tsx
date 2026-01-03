@@ -36,7 +36,11 @@ const AllCandidate = () => {
         const candidates = data?.candidate || [];
         const pagination = data?.pagination || {};
 
-        setCandidates(candidates);
+        const intrestedCandidate = candidates.filter(
+          (candidate) => candidate.status !== "rejected"
+        );
+
+        setCandidates(intrestedCandidate);
         setPagination((prev) => ({
           ...prev,
           page: Number(pagination?.page) || 1,
@@ -101,9 +105,7 @@ const AllCandidate = () => {
 
             {/* From Date */}
             <div className="flex flex-col">
-              <label className="text-sm text-gray-600 mb-1">
-                Job Posted
-              </label>
+              <label className="text-sm text-gray-600 mb-1">Job Posted</label>
               <input
                 type="date"
                 value={jobPostedFrom}
