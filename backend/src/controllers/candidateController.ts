@@ -19,6 +19,9 @@ export const addCandidateController = async (
       jobPostedDate,
       appliedDate,
       jobPostedBy,
+      offerLetterSent,
+      offerLetterAccepted,
+      candidateEnrolled,
     } = req.body;
 
     if (
@@ -54,6 +57,9 @@ export const addCandidateController = async (
       jobPostedDate,
       appliedDate,
       jobPostedBy,
+      offerLetterSent,
+      offerLetterAccepted,
+      candidateEnrolled,
     });
 
     res
@@ -144,6 +150,9 @@ export const updateCandidateController = async (
       jobPostedDate,
       appliedDate,
       jobPostedBy,
+      offerLetterSent,
+      offerLetterAccepted,
+      candidateEnrolled,
     } = req.body;
 
     const candidate = {
@@ -157,6 +166,9 @@ export const updateCandidateController = async (
       jobPostedDate,
       appliedDate,
       jobPostedBy,
+      offerLetterSent,
+      offerLetterAccepted,
+      candidateEnrolled,
     };
 
     const updateCandidate = await Candidate.findByIdAndUpdate(id, candidate, {

@@ -20,6 +20,9 @@ interface ICandidate {
   jobPostedDate: Date;
   appliedDate: Date;
   jobPostedBy: string;
+  offerLetterSent?: string;
+  offerLetterAccepted?: string;
+  candidateEnrolled?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -72,6 +75,15 @@ const candidateSchema = new Schema<ICandidate>(
     jobPostedBy: {
       type: String,
       required: true,
+    },
+    offerLetterSent: {
+      type: String,
+    },
+    offerLetterAccepted: {
+      type: String,
+    },
+    candidateEnrolled: {
+      type: String,
     },
   },
   { timestamps: true }
