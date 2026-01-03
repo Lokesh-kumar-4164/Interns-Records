@@ -85,7 +85,9 @@ export const getCandidateController = async (req: Request, res: Response) => {
   const jobPostedFrom = req.query.jobPostedFrom;
   const jobPostedTo = req.query.jobPostedTo;
 
-  let filter: any = {};
+  let filter: any = {
+    status: {$ne: "rejected"}
+  };
 
   if (search) {
     filter.$or = [
