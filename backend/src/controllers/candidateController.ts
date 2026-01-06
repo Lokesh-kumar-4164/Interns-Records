@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import Candidate from "../models/candidate";
+import { sendJoiningReminderEmailToHR } from "../utils/sendEmailToHR";
+import { sendJoiningReminderEmailToCandidate } from "../utils/sendEmailToCandidate";
 
 // Add Candidate
 export const addCandidateController = async (
@@ -86,7 +88,7 @@ export const getCandidateController = async (req: Request, res: Response) => {
   const jobPostedTo = req.query.jobPostedTo;
 
   let filter: any = {
-    status: {$ne: "rejected"}
+    status: { $ne: "rejected" },
   };
 
   if (search) {
@@ -202,6 +204,45 @@ export const updateCandidateController = async (
   } catch (error) {
     res.status(500).json({
       message: "something went wrong",
+      error: (error as Error).message,
+    });
+  }
+};
+
+//Joining Reminder
+export const checkJoiningReminderController = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+
+    const candidates = await Candidate.find({
+      status: "interested",
+      joiningDate: {
+        $gte: tomorrow,
+        $lt: new Date(tomorrow.getTime() + 24 * 60 * 60 * 1000),
+      },
+    });
+
+    if (candidates.length > 0) {
+      for (const candidate of candidates) {
+        await sendJoiningReminderEmailToHR(candidate);
+        await sendJoiningReminderEmailToCandidate(candidate);
+      }
+    }
+
+    res.status(200).json({
+      message: "Joining reminder check completed",
+      total: candidates.length,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error while checking joining reminders",
       error: (error as Error).message,
     });
   }
