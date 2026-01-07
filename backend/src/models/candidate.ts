@@ -13,6 +13,9 @@ interface ICandidate {
   name: string;
   email: string;
   phone: string;
+  linkedInProfile?: string;
+  linkedInAge?: number;
+  linkedinURL?: string;
   status?: CandidateStatus;
   joiningDate?: Date;
   duration?: string;
@@ -42,6 +45,15 @@ const candidateSchema = new Schema<ICandidate>(
     phone: {
       type: String,
       required: true,
+    },
+    linkedInProfile: {
+      type: String
+    },
+    linkedInAge: {
+    type: Number
+    },
+    linkedinURL: {
+      type: String,
     },
     status: {
       type: String,
