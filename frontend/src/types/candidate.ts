@@ -2,6 +2,9 @@ export interface CandidateFormData {
   name: string;
   email: string;
   phone: string;
+  linkedInProfile?: string;
+  linkedInAge?: number;
+  linkedinURL?: string;
   status?: string;
   joiningDate?: string;
   duration?: string;
@@ -18,6 +21,9 @@ export interface CandidatePayload {
   name: string;
   email: string;
   phone: string;
+  linkedInProfile?: string;
+  linkedInAge?: number;
+  linkedinURL?: string;
   status?: string;
   joiningDate?: string;
   duration?: string;
@@ -37,6 +43,9 @@ export interface Candidate {
   name: string;
   email: string;
   phone: string;
+  linkedInProfile?: string;
+  linkedInAge?: number;
+  linkedinURL?: string;
   status?: string;
   joiningDate?: string;
   duration?: string;

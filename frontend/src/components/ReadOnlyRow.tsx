@@ -11,6 +11,11 @@ const ReadOnlyRow = ({ candidate, onDelete, onEdit }: ReadOnlyRowProps) => {
       <td className="p-3">{candidate.name}</td>
       <td className="p-3">{candidate.email}</td>
       <td className="p-3">{candidate.phone}</td>
+      <td className="p-3">{candidate?.linkedInProfile || "Pending..."}</td>
+      <td className="p-3">{`${candidate?.linkedInAge} year`|| "Pending..."}</td>
+      <td className="p-3 text-blue-800">
+        <a href={`https://${candidate.linkedinURL}`}>{candidate.linkedinURL}</a>
+      </td>
       <td className="p-3">{candidate?.status || "Pending..."}</td>
       <td className="p-3">
         {candidate.joiningDate && !isNaN(Date.parse(candidate.joiningDate))

@@ -137,6 +137,9 @@ const AllCandidate = () => {
                   <th className="p-3">Name</th>
                   <th className="p-3">Email</th>
                   <th className="p-3">Phone</th>
+                  <th className="p-3">LinkedIn Profile</th>
+                  <th className="p-3">LinkedIn Age</th>
+                  <th className="p-3">LinkedIn URL</th>
                   <th className="p-3">status</th>
                   <th className="p-3">Joining Date</th>
                   <th className="p-3">Duration</th>

@@ -8,6 +8,9 @@ const AddCandidate = () => {
     name: "",
     email: "",
     phone: "",
+    linkedInProfile: "",
+    linkedInAge: undefined,
+    linkedinURL: "",
     status: "",
     joiningDate: "",
     duration: "",
@@ -17,11 +20,11 @@ const AddCandidate = () => {
     jobPostedBy: "",
     offerLetterSent: "",
     offerLetterAccepted: "",
-    candidateEnrolled: ""
+    candidateEnrolled: "",
   });
 
   const navigate = useNavigate();
- 
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -92,6 +95,20 @@ const AddCandidate = () => {
             placeholder="enter candidate phone no."
             name="phone"
             value={formData.phone}
+            onChange={handleChange}
+            className="border p-2 rounded "
+          />
+        </div>
+
+        <div className="flex flex-col">
+          <label className="subpixel-antialiased text-lg font-stretch-expanded uppercase">
+            LinkedIn URL
+          </label>
+          <input
+            type="text"
+            placeholder="linkedin.com"
+            name="linkedinURL"
+            value={formData.linkedinURL}
             onChange={handleChange}
             className="border p-2 rounded "
           />

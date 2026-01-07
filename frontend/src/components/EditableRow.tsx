@@ -11,6 +11,9 @@ const EditableRow = ({ candidat, setEditCandidateId }: EditableRowProp) => {
     name: candidat.name,
     email: candidat.email,
     phone: candidat.phone,
+    linkedInProfile: candidat.linkedInProfile ?? "",
+    linkedInAge: candidat.linkedInAge ?? undefined,
+    linkedinURL: candidat.linkedinURL ?? "",
     status: candidat.status ?? "",
     joiningDate: candidat.joiningDate ?? "",
     duration: candidat.duration ?? "",
@@ -75,6 +78,40 @@ const EditableRow = ({ candidat, setEditCandidateId }: EditableRowProp) => {
           onChange={editHandleChange}
         />
       </td>
+
+      <td>
+        <select
+          name="linkedInProfile"
+          value={editFormData?.linkedInProfile || ""}
+          onChange={editHandleChange}
+          className="border mt-3 mr-3  rounded"
+        >
+          <option value="">Select</option>
+          <option value="yes">Yes</option>
+          <option value="no">No</option>
+        </select>
+      </td>
+
+      <td>
+        <input
+          type="number"
+          className="border mt-3 mr-3"
+          value={editFormData.linkedInAge}
+          name="linkedInAge"
+          onChange={editHandleChange}
+        />
+      </td>
+
+      <td>
+        <input
+          type="text"
+          className="border mt-3 mr-3"
+          value={editFormData.linkedinURL}
+          name="linkedinURL"
+          onChange={editHandleChange}
+        />
+      </td>
+
       <td>
         <select
           name="status"
