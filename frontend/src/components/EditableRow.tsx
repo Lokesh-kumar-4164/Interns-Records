@@ -133,27 +133,21 @@ const EditableRow = ({ candidat, setEditCandidateId }: EditableRowProp) => {
         <input
           type="date"
           className="border mt-3 mr-3"
-          value={editFormData?.joiningDate?.slice(0,10)}
+          value={editFormData?.joiningDate?.slice(0, 10)}
           name="joiningDate"
           onChange={editHandleChange}
         />
       </td>
 
       <td>
-        <select
+        <input
+          type="text"
+          className="border mt-3 mr-3"
+          value={editFormData?.duration}
           name="duration"
-          value={editFormData?.duration || ""}
           onChange={editHandleChange}
-          className="border mt-3 mr-3  rounded"
-        >
-          <option value="">Select</option>
-          <option value="1 month">1 month</option>
-          <option value="2 months">2 months</option>
-          <option value="3 months">3 months</option>
-          <option value="4 months">4 months</option>
-          <option value="5 months">5 months</option>
-          <option value="6 months">6 months</option>
-        </select>
+          placeholder="1 month"
+        />
       </td>
       <td>
         <input
