@@ -72,6 +72,12 @@ const AllCandidate = () => {
     setEditCandidateId(candidate._id);
   };
 
+  const handleCandidateUpdate = (updateCandidate: Candidate) => {
+    setCandidates((prev) =>
+      prev.map((c) => (c._id === updateCandidate._id ? updateCandidate : c))
+    );
+  };
+
   if (loading) {
     return <Loading />;
   }
@@ -130,7 +136,11 @@ const AllCandidate = () => {
 
         {/* Table */}
         <div className="bg-white rounded-lg">
-          <form action="">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+            }}
+          >
             <table className="w-full border-collapse">
               <thead>
                 <tr className="bg-cyan-600 text-white">
@@ -163,6 +173,7 @@ const AllCandidate = () => {
                         <EditableRow
                           candidat={candidate}
                           setEditCandidateId={setEditCandidateId}
+                          onUpdate={handleCandidateUpdate}
                         ></EditableRow>
                       ) : (
                         <ReadOnlyRow

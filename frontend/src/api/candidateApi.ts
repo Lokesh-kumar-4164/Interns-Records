@@ -2,6 +2,7 @@ import axios from "axios";
 import type {
   CandidateListResponse,
   CandidatePayload,
+  UpdateCandidateResponse,
 } from "../types/candidate";
 import type { Candidate } from "../types/candidate";
 import type { MessageResponse } from "../types/candidate";
@@ -38,7 +39,7 @@ export const candidateDeleteApi = async (
 export const candidateEditApi = async (
   id: string,
   data: CandidatePayload
-): Promise<Candidate & MessageResponse> => {
+): Promise<UpdateCandidateResponse> => {
   const res = await axios.put(`${API_URL}/candidate/${id}`, data);
   return res.data;
 };

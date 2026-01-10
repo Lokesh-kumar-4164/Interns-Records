@@ -77,3 +77,8 @@ export interface CandidateListResponse {
   candidate: Candidate[];
   pagination: Pagination;
 }
+
+export interface UpdateCandidateResponse {
+  message: string;
+  updateCandidate: Candidate;
+}
