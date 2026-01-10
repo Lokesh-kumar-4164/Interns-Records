@@ -2,6 +2,7 @@ import { useState } from "react";
 import { type CandidateFormData } from "../types/candidate";
 import { candidateAddApi } from "../api/candidateApi";
 import { useNavigate } from "react-router-dom";
+import UploadExcel from "../components/UploadExcel";
 
 const AddCandidate = () => {
   const [formData, setFormData] = useState<CandidateFormData>({
@@ -47,140 +48,150 @@ const AddCandidate = () => {
     }
   };
   return (
-    <div className="flex flex-col bg-white shadow-xl px-10 py-4 rounded-2xl  w-full max-w-3xl my-10 justify-center items-center">
-      <div className="text-center pb-6">
-        <h2 className="text-3xl font-bold">Add Candidate</h2>
+    <div className="w-full flex flex-col items-center">
+      <UploadExcel></UploadExcel>
+
+      <div className="flex flex-row w-full items-center justify-center">
+        <hr className="h-px my-8 bg-neutral-quaternary border max-w-sm w-full" />
+        <p className="p-2">OR</p>
+        <hr className="h-px my-8 bg-neutral-quaternary border max-w-sm w-full" />
       </div>
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col  gap-4 w-full  max-w-xl "
-      >
-        <div className="flex flex-col">
-          <label className="subpixel-antialiased text-lg font-stretch-expanded uppercase">
-            Name
-          </label>
-          <input
-            required
-            type="text"
-            placeholder="enter candidate name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            className="border p-2 rounded "
-          />
-        </div>
 
-        <div className="flex flex-col  ">
-          <label className="subpixel-antialiased text-lg font-stretch-expanded uppercase">
-            Email
-          </label>
-          <input
-            required
-            type="email"
-            placeholder="enter candidate email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className="border p-2 rounded"
-          />
+      <div className="flex flex-col bg-white shadow-xl px-10 py-4 rounded-2xl w-full  max-w-3xl my-3 justify-center items-center">
+        <div className="text-center pb-6">
+          <h2 className="text-3xl font-bold">Add Candidate</h2>
         </div>
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col  gap-4 w-full  max-w-xl "
+        >
+          <div className="flex flex-col">
+            <label className="subpixel-antialiased text-lg font-stretch-expanded uppercase">
+              Name
+            </label>
+            <input
+              required
+              type="text"
+              placeholder="enter candidate name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              className="border p-2 rounded "
+            />
+          </div>
 
-        <div className="flex flex-col ">
-          <label className="subpixel-antialiased text-lg font-stretch-expanded uppercase">
-            Phone
-          </label>
-          <input
-            required
-            type="tel"
-            placeholder="enter candidate phone no."
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            className="border p-2 rounded "
-          />
-        </div>
+          <div className="flex flex-col  ">
+            <label className="subpixel-antialiased text-lg font-stretch-expanded uppercase">
+              Email
+            </label>
+            <input
+              required
+              type="email"
+              placeholder="enter candidate email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              className="border p-2 rounded"
+            />
+          </div>
 
-        <div className="flex flex-col">
-          <label className="subpixel-antialiased text-lg font-stretch-expanded uppercase">
-            LinkedIn URL
-          </label>
-          <input
-            type="text"
-            placeholder="linkedin.com"
-            name="linkedinURL"
-            value={formData.linkedinURL}
-            onChange={handleChange}
-            className="border p-2 rounded "
-          />
-        </div>
+          <div className="flex flex-col ">
+            <label className="subpixel-antialiased text-lg font-stretch-expanded uppercase">
+              Phone
+            </label>
+            <input
+              required
+              type="tel"
+              placeholder="enter candidate phone no."
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              className="border p-2 rounded "
+            />
+          </div>
 
-        <div className="flex flex-col ">
-          <label className="subpixel-antialiased text-lg font-stretch-expanded uppercase">
-            Job board
-          </label>
-          <input
-            required
-            type="text"
-            placeholder="enter job board name"
-            name="jobBoard"
-            value={formData.jobBoard}
-            onChange={handleChange}
-            className="border p-2 rounded "
-          />
-        </div>
+          <div className="flex flex-col">
+            <label className="subpixel-antialiased text-lg font-stretch-expanded uppercase">
+              LinkedIn URL
+            </label>
+            <input
+              type="text"
+              placeholder="linkedin.com"
+              name="linkedinURL"
+              value={formData.linkedinURL}
+              onChange={handleChange}
+              className="border p-2 rounded "
+            />
+          </div>
 
-        <div className="flex flex-col ">
-          <label className="subpixel-antialiased text-lg font-stretch-expanded uppercase">
-            Job posted Date
-          </label>
-          <input
-            required
-            type="date"
-            name="jobPostedDate"
-            value={formData.jobPostedDate.slice(0, 10)}
-            onChange={handleChange}
-            className="border p-2 rounded "
-          />
-        </div>
+          <div className="flex flex-col ">
+            <label className="subpixel-antialiased text-lg font-stretch-expanded uppercase">
+              Job board
+            </label>
+            <input
+              required
+              type="text"
+              placeholder="enter job board name"
+              name="jobBoard"
+              value={formData.jobBoard}
+              onChange={handleChange}
+              className="border p-2 rounded "
+            />
+          </div>
 
-        <div className="flex flex-col ">
-          <label className="subpixel-antialiased text-lg font-stretch-expanded uppercase">
-            Applied Date
-          </label>
-          <input
-            required
-            type="date"
-            name="appliedDate"
-            value={formData.appliedDate.slice(0, 10)}
-            onChange={handleChange}
-            className="border p-2 rounded "
-          />
-        </div>
+          <div className="flex flex-col ">
+            <label className="subpixel-antialiased text-lg font-stretch-expanded uppercase">
+              Job posted Date
+            </label>
+            <input
+              required
+              type="date"
+              name="jobPostedDate"
+              value={formData.jobPostedDate.slice(0, 10)}
+              onChange={handleChange}
+              className="border p-2 rounded "
+            />
+          </div>
 
-        <div className="flex flex-col ">
-          <label className="subpixel-antialiased text-lg font-stretch-expanded uppercase">
-            Job Posted By
-          </label>
-          <input
-            required
-            type="text"
-            placeholder="posted by"
-            name="jobPostedBy"
-            value={formData.jobPostedBy}
-            onChange={handleChange}
-            className="border p-2 rounded "
-          />
-        </div>
+          <div className="flex flex-col ">
+            <label className="subpixel-antialiased text-lg font-stretch-expanded uppercase">
+              Applied Date
+            </label>
+            <input
+              required
+              type="date"
+              name="appliedDate"
+              value={formData.appliedDate.slice(0, 10)}
+              onChange={handleChange}
+              className="border p-2 rounded "
+            />
+          </div>
 
-        <div className="flex lg:mt-6 w-full justify-center">
-          <button
-            type="submit"
-            className="bg-cyan-600 px-6 py-3  rounded-lg text-white text-lg hover:cursor-pointer hover:bg-cyan-500"
-          >
-            Add
-          </button>
-        </div>
-      </form>
+          <div className="flex flex-col ">
+            <label className="subpixel-antialiased text-lg font-stretch-expanded uppercase">
+              Job Posted By
+            </label>
+            <input
+              required
+              type="text"
+              placeholder="posted by"
+              name="jobPostedBy"
+              value={formData.jobPostedBy}
+              onChange={handleChange}
+              className="border p-2 rounded "
+            />
+          </div>
+
+          <div className="flex lg:mt-6 w-full justify-center">
+            <button
+              type="submit"
+              className="bg-cyan-600 px-6 py-3  rounded-lg text-white text-lg hover:cursor-pointer hover:bg-cyan-500"
+            >
+              Add
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

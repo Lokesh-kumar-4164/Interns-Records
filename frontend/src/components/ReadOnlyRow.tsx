@@ -33,7 +33,7 @@ const ReadOnlyRow = ({ candidate, onDelete, onEdit }: ReadOnlyRowProps) => {
           : "N/A"}
       </td>
       <td className="p-3">{candidate.duration || "N/A"}</td>
-      <td className="p-3">{candidate.jobBoard}</td>
+      <td className="p-3">{candidate.jobBoard || "N/A"}</td>
       <td className="p-3">
         {candidate.jobPostedDate && !isNaN(Date.parse(candidate.jobPostedDate))
           ? new Date(candidate.jobPostedDate).toLocaleDateString("en-US", {

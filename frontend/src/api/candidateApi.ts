@@ -42,3 +42,12 @@ export const candidateEditApi = async (
   const res = await axios.put(`${API_URL}/candidate/${id}`, data);
   return res.data;
 };
+
+export const uploadExcelApi = async (data: FormData) => {
+  const res = await axios.post(`${API_URL}/candidate/upload-excel`, data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return res.data;
+};
