@@ -47,10 +47,10 @@ const candidateSchema = new Schema<ICandidate>(
       required: true,
     },
     linkedInProfile: {
-      type: String
+      type: String,
     },
     linkedInAge: {
-    type: Number
+      type: Number,
     },
     linkedinURL: {
       type: String,
@@ -74,19 +74,15 @@ const candidateSchema = new Schema<ICandidate>(
     },
     jobBoard: {
       type: String,
-      required: true,
     },
     jobPostedDate: {
       type: Date,
-      required: true,
     },
     appliedDate: {
       type: Date,
-      required: true,
     },
     jobPostedBy: {
       type: String,
-      required: true,
     },
     offerLetterSent: {
       type: String,

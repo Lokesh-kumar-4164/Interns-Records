@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import Candidate from "../models/candidate";
 import { sendJoiningReminderEmailToHR } from "../utils/sendEmailToHR";
 import { sendJoiningReminderEmailToCandidate } from "../utils/sendEmailToCandidate";
+import XLSX from "xlsx";
 
 // Add Candidate
 export const addCandidateController = async (
@@ -255,6 +256,125 @@ export const checkJoiningReminderController = async (
   } catch (error) {
     res.status(500).json({
       message: "Error while checking joining reminders",
+      error: (error as Error).message,
+    });
+  }
+};
+
+// Upload Excel
+export const uploadExcelController = async (req: Request, res: Response) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: "No file uploaded" });
+    }
+
+    // Excel read
+    const workBook = XLSX.read(req.file.buffer, { type: "buffer" });
+    const sheetName = workBook.SheetNames[0];
+    const sheet = workBook.Sheets[sheetName];
+
+    // Convert to JSON, default value blank
+    const data: any[] = XLSX.utils.sheet_to_json(sheet, { defval: "" });
+
+    let saved = 0;
+    let skipped = 0;
+
+    // Helper to clean phone, but don't truncate
+    const normalizePhone = (value: any): string => {
+      if (!value) return "";
+      let phone = String(value).trim();
+
+      // Scientific notation handle
+      if (/e/i.test(phone)) {
+        phone = Number(phone).toString();
+      }
+
+      // Remove non-digit characters
+      phone = phone.replace(/\D/g, "");
+      return phone;
+    };
+
+    // Helper to parse date safely
+    const parseDate = (value: any) => {
+      if (!value) return undefined;
+      const date = new Date(value);
+      return isNaN(date.getTime()) ? undefined : date;
+    };
+
+    for (const row of data) {
+      const name = row["name"] || row["Name"];
+      const email = row["email"] || row["Email"];
+      const phone = normalizePhone(row["phone"] || row["Phone"]);
+
+      // Skip only if all three are empty
+      if (!name && !email && !phone) {
+        skipped++;
+        continue;
+      }
+
+      // Duplicate check on email OR phone
+      const exist = await Candidate.findOne({
+        $or: [{ email: email?.toLowerCase() }, { phone: phone }],
+      });
+
+      if (exist) {
+        skipped++;
+        continue;
+      }
+
+      // Status: if not in enum, save as blank
+      const allowedStatus = [
+        "",
+        "busy",
+        "interested",
+        "no response",
+        "no incoming service",
+        "rejected",
+      ];
+      let statusRaw = row["status"] || row["Status"] || "";
+      const status = allowedStatus.includes(statusRaw.trim())
+        ? statusRaw.trim()
+        : "";
+
+      const parseJoiningDate = (value: any) => {
+        if (!value) return undefined;
+
+        const date = new Date(value);
+        if (!isNaN(date.getTime())) return date;
+        return undefined;
+      };
+
+      // Create candidate
+      await Candidate.create({
+        name: name?.trim() || "",
+        email: email?.toLowerCase().trim() || "",
+        phone: phone || "",
+        status,
+        joiningDate: parseJoiningDate(row["joiningDate"]),
+        duration: row["duration"] || row["Duration"] || "",
+        jobBoard: "",
+        jobPostedDate: new Date(),
+        appliedDate:
+          parseDate(row["appliedDate"] || row["Date Applied"]) || new Date(),
+        jobPostedBy: row["Interviewer"] || "",
+        offerLetterSent: row["Offer letter Send"] || "",
+        offerLetterAccepted: row["Accepted Offer Letter"] || "",
+        candidateEnrolled: row["Candidates Enrolled"] || "",
+      });
+
+      saved++;
+    }
+
+    res.status(200).json({
+      message: "Excel upload completed",
+      saved,
+      skipped,
+      total: data.length,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Excel upload failed",
       error: (error as Error).message,
     });
   }
