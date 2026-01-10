@@ -15,7 +15,7 @@ const AllCandidate = () => {
   const [pagination, setPagination] = useState<Pagination>({
     total: 0,
     page: 1,
-    limit: 5,
+    limit: 10,
     totalPages: 1,
     search: "",
   });
