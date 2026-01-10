@@ -18,7 +18,7 @@ const ReadOnlyRow = ({ candidate, onDelete, onEdit }: ReadOnlyRowProps) => {
           : candidate.linkedInAge + "year"
       }`}</td>
       <td className="p-3 text-blue-800">
-        <a href={`https://${candidate.linkedinURL}`}>
+        <a href={candidate.linkedinURL}>
           {candidate.linkedinURL || "Pending"}
         </a>
       </td>
