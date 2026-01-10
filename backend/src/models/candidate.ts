@@ -8,6 +8,8 @@ type CandidateStatus =
   | "no incoming service"
   | "rejected";
 
+type CandidateFieldType = "" | "Part time" | "Full time";
+
 interface ICandidate {
   _id?: Types.ObjectId;
   name: string;
@@ -26,6 +28,7 @@ interface ICandidate {
   offerLetterSent?: string;
   offerLetterAccepted?: string;
   candidateEnrolled?: string;
+  fieldType?: CandidateFieldType;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -92,6 +95,10 @@ const candidateSchema = new Schema<ICandidate>(
     },
     candidateEnrolled: {
       type: String,
+    },
+    fieldType: {
+      type: String,
+      enum: ["", "Part Time", "Full Time"],
     },
   },
   { timestamps: true }

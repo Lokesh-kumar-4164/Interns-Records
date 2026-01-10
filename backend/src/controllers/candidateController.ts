@@ -27,6 +27,7 @@ export const addCandidateController = async (
       offerLetterSent,
       offerLetterAccepted,
       candidateEnrolled,
+      fieldType,
     } = req.body;
 
     if (
@@ -68,6 +69,7 @@ export const addCandidateController = async (
       offerLetterSent,
       offerLetterAccepted,
       candidateEnrolled,
+      fieldType,
     });
 
     res
@@ -88,7 +90,7 @@ export const addCandidateController = async (
 //Get Candidate
 export const getCandidateController = async (req: Request, res: Response) => {
   const page = Math.max(Number(req.query.page) || 1, 1);
-  const limit = Math.max(Number(req.query.limit) || 10,10);
+  const limit = Math.max(Number(req.query.limit) || 10, 10);
 
   const search = req.query.search || "";
   const jobPostedFrom = req.query.jobPostedFrom;
@@ -181,6 +183,7 @@ export const updateCandidateController = async (
       offerLetterSent,
       offerLetterAccepted,
       candidateEnrolled,
+      fieldType,
     } = req.body;
 
     const candidate = {
@@ -200,6 +203,7 @@ export const updateCandidateController = async (
       offerLetterSent,
       offerLetterAccepted,
       candidateEnrolled,
+      fieldType,
     };
 
     const updateCandidate = await Candidate.findByIdAndUpdate(id, candidate, {
