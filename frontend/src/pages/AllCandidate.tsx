@@ -150,6 +150,7 @@ const AllCandidate = () => {
                   <th className="p-3">Offer Letter Sent</th>
                   <th className="p-3">Offer Letter Accepted</th>
                   <th className="p-3">Candidate Enrolled</th>
+                  <th className="p-3">Field Type</th>
                   <th className="p-3">Actions</th>
                 </tr>
               </thead>

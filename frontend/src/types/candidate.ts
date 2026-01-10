@@ -15,6 +15,7 @@ export interface CandidateFormData {
   offerLetterSent: string;
   offerLetterAccepted: string;
   candidateEnrolled: string;
+  fieldType: string;
 }
 
 export interface CandidatePayload {
@@ -34,6 +35,7 @@ export interface CandidatePayload {
   offerLetterSent: string;
   offerLetterAccepted: string;
   candidateEnrolled: string;
+  fieldType: string;
 }
 
 export interface Candidate {
@@ -56,6 +58,7 @@ export interface Candidate {
   offerLetterSent: string;
   offerLetterAccepted: string;
   candidateEnrolled: string;
+  fieldType: string;
 }
 
 export interface MessageResponse {

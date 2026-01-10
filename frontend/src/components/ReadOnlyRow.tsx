@@ -18,9 +18,7 @@ const ReadOnlyRow = ({ candidate, onDelete, onEdit }: ReadOnlyRowProps) => {
           : candidate.linkedInAge + "year"
       }`}</td>
       <td className="p-3 text-blue-800">
-        <a href={candidate.linkedinURL}>
-          {candidate.linkedinURL || "Pending"}
-        </a>
+        <a href={candidate.linkedinURL}>{candidate.linkedinURL || "Pending"}</a>
       </td>
       <td className="p-3">{candidate?.status || "Pending..."}</td>
       <td className="p-3">
@@ -59,6 +57,7 @@ const ReadOnlyRow = ({ candidate, onDelete, onEdit }: ReadOnlyRowProps) => {
       <td className="p-3">{candidate?.offerLetterSent || "Pending..."}</td>
       <td className="p-3">{candidate?.offerLetterAccepted || "Pending..."}</td>
       <td className="p-3">{candidate?.candidateEnrolled || "Pending..."}</td>
+      <td className="p-3">{candidate?.fieldType || "Pending..."}</td>
       <td className="p-3">
         <div className="flex gap-3 justify-around">
           <button

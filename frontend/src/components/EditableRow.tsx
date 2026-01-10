@@ -24,6 +24,7 @@ const EditableRow = ({ candidat, setEditCandidateId }: EditableRowProp) => {
     offerLetterSent: candidat.offerLetterSent ?? "",
     offerLetterAccepted: candidat.offerLetterAccepted ?? "",
     candidateEnrolled: candidat.candidateEnrolled ?? "",
+    fieldType: candidat.fieldType ?? "",
   });
   const editHandleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -139,14 +140,20 @@ const EditableRow = ({ candidat, setEditCandidateId }: EditableRowProp) => {
       </td>
 
       <td>
-        <input
-          type="text"
-          className="border mt-3 mr-3"
-          value={editFormData.duration}
+        <select
           name="duration"
-          placeholder="1 month"
+          value={editFormData?.duration || ""}
           onChange={editHandleChange}
-        />
+          className="border mt-3 mr-3  rounded"
+        >
+          <option value="">Select</option>
+          <option value="1 month">1 month</option>
+          <option value="2 months">2 months</option>
+          <option value="3 months">3 months</option>
+          <option value="4 months">4 months</option>
+          <option value="5 months">5 months</option>
+          <option value="6 months">6 months</option>
+        </select>
       </td>
       <td>
         <input
@@ -220,6 +227,20 @@ const EditableRow = ({ candidat, setEditCandidateId }: EditableRowProp) => {
           onChange={editHandleChange}
         />
       </td>
+
+      <td>
+        <select
+          name="fieldType"
+          value={editFormData?.fieldType || ""}
+          onChange={editHandleChange}
+          className="border mt-3 mr-3  rounded"
+        >
+          <option value="">Select</option>
+          <option value="Part Time">Part Time</option>
+          <option value="Full Time">Full Time</option>
+        </select>
+      </td>
+
       <td className="p-3">
         <div className="flex gap-3 justify-around">
           <button
