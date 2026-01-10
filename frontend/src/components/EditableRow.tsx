@@ -133,7 +133,7 @@ const EditableRow = ({ candidat, setEditCandidateId }: EditableRowProp) => {
         <input
           type="date"
           className="border mt-3 mr-3"
-          value={editFormData.joiningDate}
+          value={editFormData?.joiningDate?.slice(0,10)}
           name="joiningDate"
           onChange={editHandleChange}
         />
