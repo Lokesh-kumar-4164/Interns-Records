@@ -4,7 +4,6 @@ import type {
   CandidatePayload,
   UpdateCandidateResponse,
 } from "../types/candidate";
-import type { Candidate } from "../types/candidate";
 import type { MessageResponse } from "../types/candidate";
 
 const API_URL = import.meta.env.VITE_API_URL as string;
