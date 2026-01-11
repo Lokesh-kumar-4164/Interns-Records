@@ -28,6 +28,7 @@ export const addCandidateController = async (
       offerLetterAccepted,
       candidateEnrolled,
       fieldType,
+      comment,
     } = req.body;
 
     if (
@@ -70,6 +71,7 @@ export const addCandidateController = async (
       offerLetterAccepted,
       candidateEnrolled,
       fieldType,
+      comment,
     });
 
     res
@@ -184,6 +186,7 @@ export const updateCandidateController = async (
       offerLetterAccepted,
       candidateEnrolled,
       fieldType,
+      comment,
     } = req.body;
 
     const candidate = {
@@ -204,6 +207,7 @@ export const updateCandidateController = async (
       offerLetterAccepted,
       candidateEnrolled,
       fieldType,
+      comment,
     };
 
     const updateCandidate = await Candidate.findByIdAndUpdate(id, candidate, {

@@ -29,6 +29,7 @@ interface ICandidate {
   offerLetterAccepted?: string;
   candidateEnrolled?: string;
   fieldType?: CandidateFieldType;
+  comment?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -99,6 +100,9 @@ const candidateSchema = new Schema<ICandidate>(
     fieldType: {
       type: String,
       enum: ["", "Part Time", "Full Time"],
+    },
+    comment: {
+      type: String,
     },
   },
   { timestamps: true }
