@@ -30,9 +30,10 @@ const EditableRow = ({
     offerLetterAccepted: candidat.offerLetterAccepted ?? "",
     candidateEnrolled: candidat.candidateEnrolled ?? "",
     fieldType: candidat.fieldType ?? "",
+    comment: candidat.comment ?? ""
   });
   const editHandleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setEditFormData((prev) => ({
@@ -247,6 +248,15 @@ const EditableRow = ({
           <option value="Part Time">Part Time</option>
           <option value="Full Time">Full Time</option>
         </select>
+      </td>
+
+       <td>
+        <textarea
+          className="border mt-3 mr-3"
+          value={editFormData.comment}
+          name="comment"
+          onChange={editHandleChange}
+        />
       </td>
 
       <td className="p-3">

@@ -58,6 +58,7 @@ const ReadOnlyRow = ({ candidate, onDelete, onEdit }: ReadOnlyRowProps) => {
       <td className="p-3">{candidate?.offerLetterAccepted || "Pending..."}</td>
       <td className="p-3">{candidate?.candidateEnrolled || "Pending..."}</td>
       <td className="p-3">{candidate?.fieldType || "Pending..."}</td>
+      <td className="p-3">{candidate?.comment || "Pending..."}</td>
       <td className="p-3">
         <div className="flex gap-3 justify-around">
           <button

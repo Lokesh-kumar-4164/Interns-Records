@@ -4,6 +4,7 @@ import { type Pagination, type Candidate } from "../types/candidate";
 import Loading from "../components/Loading";
 import ReadOnlyRow from "../components/ReadOnlyRow";
 import EditableRow from "../components/EditableRow";
+import React from "react";
 
 const AllCandidate = () => {
   const [candidates, setCandidates] = useState<Candidate[]>([]);
@@ -72,9 +73,11 @@ const AllCandidate = () => {
     setEditCandidateId(candidate._id);
   };
 
-  const handleCandidateUpdate = (updateCandidate: Candidate) => {
+  const handleCandidateUpdate = (updateCandidate: Candidate): void => {
     setCandidates((prev) =>
-      prev.map((c) => (c._id === updateCandidate._id ? updateCandidate : c))
+      prev.map((candidat) =>
+        candidat._id === updateCandidate._id ? updateCandidate : candidat
+      )
     );
   };
 
@@ -161,6 +164,7 @@ const AllCandidate = () => {
                   <th className="p-3">Offer Letter Accepted</th>
                   <th className="p-3">Candidate Enrolled</th>
                   <th className="p-3">Field Type</th>
+                  <th className="p-3">Comment</th>
                   <th className="p-3">Actions</th>
                 </tr>
               </thead>
@@ -168,7 +172,7 @@ const AllCandidate = () => {
               <tbody>
                 {candidates?.length > 0 ? (
                   candidates.map((candidate) => (
-                    <>
+                    <React.Fragment key={candidate._id}>
                       {editCandidateId === candidate._id ? (
                         <EditableRow
                           candidat={candidate}
@@ -183,7 +187,7 @@ const AllCandidate = () => {
                           onEdit={handleEditClick}
                         ></ReadOnlyRow>
                       )}
-                    </>
+                    </React.Fragment>
                   ))
                 ) : (
                   <tr>

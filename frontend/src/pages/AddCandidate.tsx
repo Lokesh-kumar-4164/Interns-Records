@@ -23,6 +23,7 @@ const AddCandidate = () => {
     offerLetterAccepted: "",
     candidateEnrolled: "",
     fieldType: "",
+    comment: ""
   });
 
   const navigate = useNavigate();
