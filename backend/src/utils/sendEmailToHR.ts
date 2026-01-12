@@ -17,4 +17,5 @@ export const sendJoiningReminderEmailToHR = async (candidate: any) => {
   };
 
   await transporterHR.sendMail(mailOptions);
+  console.log("HR mail sent");
 };

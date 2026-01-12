@@ -30,4 +30,5 @@ Centennial Infotech
   };
 
   await transporterCandidate.sendMail(mailOptions);
+  console.log("Candidate mail sent");
 };
