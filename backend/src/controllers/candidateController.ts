@@ -250,17 +250,19 @@ export const checkJoiningReminderController = async (
       },
     });
 
-    if (candidates.length > 0) {
-      for (const candidate of candidates) {
-        await sendJoiningReminderEmailToHR(candidate);
-        await sendJoiningReminderEmailToCandidate(candidate);
-      }
-    }
-
     res.status(200).json({
       message: "Joining reminder check completed",
       total: candidates.length,
     });
+
+    if (candidates.length > 0) {
+      await Promise.all(
+        candidates.flatMap((candidate) => [
+          sendJoiningReminderEmailToHR(candidate),
+          sendJoiningReminderEmailToCandidate(candidate),
+        ])
+      ).catch(console.error);
+    }
   } catch (error) {
     res.status(500).json({
       message: "Error while checking joining reminders",
