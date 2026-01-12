@@ -1,16 +1,6 @@
-import nodemailer from "nodemailer";
+import { transporterCandidate } from "./transporter";
 
 export const sendJoiningReminderEmailToCandidate = async (candidate: any) => {
-  const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST_HR,
-    port: Number(process.env.SMTP_PORT_HR),
-    secure: process.env.SMTP_PORT_HR == "465",
-    auth: {
-      user: process.env.BREVO_USER_HR,
-      pass: process.env.SMTP_KEY_HR,
-    },
-  } as nodemailer.TransportOptions);
-
   const mailOptions = {
     from: `"Centennial Infotech" ${process.env.BREVO_EMAIL_HR}`,
     to: candidate.email,
@@ -39,5 +29,5 @@ Centennial Infotech
     `,
   };
 
-  await transporter.sendMail(mailOptions);
+  await transporterCandidate.sendMail(mailOptions);
 };
