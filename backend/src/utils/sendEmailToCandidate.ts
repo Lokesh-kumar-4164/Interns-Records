@@ -42,7 +42,7 @@ Centennial Infotech
       {
         headers: {
           "Content-Type": "application/json",
-          "api-key": process.env.BREVO_API_KEY, // API key
+          "api-key": process.env.BREVO_API_KEY_HR, // API key
         },
       }
     );
