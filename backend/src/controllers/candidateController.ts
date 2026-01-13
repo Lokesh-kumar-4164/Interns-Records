@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import Candidate from "../models/candidate";
 import { sendJoiningReminderEmailToHR } from "../utils/sendEmailToHR";
-import { sendJoiningReminderEmailToCandidate } from "../utils/sendEmailToCandidate";
+//import { sendJoiningReminderEmailToCandidate } from "../utils/sendEmailToCandidate";
 import XLSX from "xlsx";
 
 // Add Candidate
@@ -259,7 +259,7 @@ export const checkJoiningReminderController = async (
       await Promise.all(
         candidates.flatMap((candidate) => [
           sendJoiningReminderEmailToHR(candidate),
-          sendJoiningReminderEmailToCandidate(candidate),
+          // sendJoiningReminderEmailToCandidate(candidate),
         ])
       ).catch(console.error);
     }
