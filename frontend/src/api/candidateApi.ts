@@ -16,7 +16,7 @@ export const candidateAddApi = async function (
 };
 
 export const candidateGetApi = async (
-  page: number = 1,
+  page: number = 1, 
   limit: number = 10,
   search: string = "",
   jobPostedFrom?: string,

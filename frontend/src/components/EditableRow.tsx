@@ -69,6 +69,58 @@ const EditableRow = ({
           onChange={editHandleChange}
         />
       </td>
+
+       <td>
+        <input
+          type="tel"
+          className="border mt-3 mr-3"
+          value={editFormData.phone}
+          name="phone"
+          onChange={editHandleChange}
+        />
+      </td>
+        <td>
+        <select
+          name="status"
+          value={editFormData?.status || ""}
+          onChange={editHandleChange}
+          className="border mt-3 mr-3  rounded"
+        >
+          <option value="">Select Status</option>
+          <option value="interested">Interested</option>
+          <option value="busy">Busy</option>
+          <option value="no response">No Response</option>
+          <option value="no incoming service">No Incoming Service</option>
+          <option value="rejected">Rejected</option>
+        </select>
+      </td>
+
+      <td>
+        <textarea
+          className="border mt-3 mr-3"
+          value={editFormData.comment}
+          name="comment"
+          onChange={editHandleChange}
+        />
+      </td>
+
+      <td className="p-3">
+        <div className="flex gap-3 justify-around">
+          <button
+            className="px-3 py-2 bg-blue-500 rounded-lg hover:cursor-pointer hover:bg-blue-400"
+            onClick={handleEditSave}
+            type="submit"
+          >
+            Save
+          </button>
+          <button
+            className="px-3 py-2 bg-yellow-500 rounded-lg hover:cursor-pointer hover:bg-yellow-400"
+            onClick={handleEditCancel}
+          >
+            Cancel
+          </button>
+        </div>
+      </td>
       <td>
         <input
           type="email"
@@ -79,15 +131,7 @@ const EditableRow = ({
         />
       </td>
 
-      <td>
-        <input
-          type="tel"
-          className="border mt-3 mr-3"
-          value={editFormData.phone}
-          name="phone"
-          onChange={editHandleChange}
-        />
-      </td>
+     
 
       <td>
         <select
@@ -122,21 +166,7 @@ const EditableRow = ({
         />
       </td>
 
-      <td>
-        <select
-          name="status"
-          value={editFormData?.status || ""}
-          onChange={editHandleChange}
-          className="border mt-3 mr-3  rounded"
-        >
-          <option value="">Select Status</option>
-          <option value="interested">Interested</option>
-          <option value="busy">Busy</option>
-          <option value="no response">No Response</option>
-          <option value="no incoming service">No Incoming Service</option>
-          <option value="rejected">Rejected</option>
-        </select>
-      </td>
+    
 
       <td>
         <input
@@ -250,32 +280,9 @@ const EditableRow = ({
         </select>
       </td>
 
-       <td>
-        <textarea
-          className="border mt-3 mr-3"
-          value={editFormData.comment}
-          name="comment"
-          onChange={editHandleChange}
-        />
-      </td>
+       
 
-      <td className="p-3">
-        <div className="flex gap-3 justify-around">
-          <button
-            className="px-3 py-2 bg-blue-500 rounded-lg hover:cursor-pointer hover:bg-blue-400"
-            onClick={handleEditSave}
-            type="submit"
-          >
-            Save
-          </button>
-          <button
-            className="px-3 py-2 bg-yellow-500 rounded-lg hover:cursor-pointer hover:bg-yellow-400"
-            onClick={handleEditCancel}
-          >
-            Cancel
-          </button>
-        </div>
-      </td>
+      
     </tr>
   );
 };

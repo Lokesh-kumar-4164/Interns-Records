@@ -53,7 +53,7 @@ const AllCandidate = () => {
       }
     };
     fetchCandidate();
-  }, [page, search, jobPostedFrom]);
+  }, [page, search,limit, jobPostedFrom]);
 
   const handleDelete = async (id: string): Promise<void> => {
     try {
@@ -148,12 +148,16 @@ const AllCandidate = () => {
               <thead>
                 <tr className="bg-cyan-600 text-white">
                   <th className="p-3">Name</th>
-                  <th className="p-3">Email</th>
                   <th className="p-3">Phone</th>
+                  <th className="p-3">status</th>
+                  <th className="p-3">Comment</th>
+                  <th className="p-3">Actions</th>
+                  <th className="p-3">Email</th>
+                  
                   <th className="p-3">LinkedIn Profile</th>
                   <th className="p-3">LinkedIn Age</th>
                   <th className="p-3">LinkedIn URL</th>
-                  <th className="p-3">status</th>
+                  
                   <th className="p-3">Joining Date</th>
                   <th className="p-3">Duration</th>
                   <th className="p-3">Job Board</th>
@@ -164,8 +168,8 @@ const AllCandidate = () => {
                   <th className="p-3">Offer Letter Accepted</th>
                   <th className="p-3">Candidate Enrolled</th>
                   <th className="p-3">Field Type</th>
-                  <th className="p-3">Comment</th>
-                  <th className="p-3">Actions</th>
+                  
+                  
                 </tr>
               </thead>
 
