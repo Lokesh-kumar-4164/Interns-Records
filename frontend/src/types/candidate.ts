@@ -85,3 +85,4 @@ export interface UpdateCandidateResponse {
   message: string;
   updateCandidate: Candidate;
 }
+

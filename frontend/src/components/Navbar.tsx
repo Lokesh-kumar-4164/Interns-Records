@@ -10,7 +10,7 @@ const Navbar = () => {
         />
       </div>
       <ul className="flex gap-1 text-sm lg:text-lg font-medium lg:gap-4">
-        <Link to="/">
+        <Link to="/add-candidate">
         <li className="text-cyan-600 hover:cursor-pointer hover:text-cyan-500 hover:shodow-lg">
           Add Candidate
         </li>
