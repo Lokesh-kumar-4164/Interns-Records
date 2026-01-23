@@ -30,10 +30,12 @@ const EditableRow = ({
     offerLetterAccepted: candidat.offerLetterAccepted ?? "",
     candidateEnrolled: candidat.candidateEnrolled ?? "",
     fieldType: candidat.fieldType ?? "",
-    comment: candidat.comment ?? ""
+    comment: candidat.comment ?? "",
   });
   const editHandleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >,
   ) => {
     const { name, value } = e.target;
     setEditFormData((prev) => ({
@@ -60,6 +62,23 @@ const EditableRow = ({
 
   return (
     <tr key={candidat._id}>
+      <td className="p-3">
+        <div className="flex gap-3 justify-around">
+          <button
+            className="px-3 py-2 bg-blue-500 rounded-lg hover:cursor-pointer hover:bg-blue-400"
+            onClick={handleEditSave}
+            type="submit"
+          >
+            Save
+          </button>
+          <button
+            className="px-3 py-2 bg-yellow-500 rounded-lg hover:cursor-pointer hover:bg-yellow-400"
+            onClick={handleEditCancel}
+          >
+            Cancel
+          </button>
+        </div>
+      </td>
       <td>
         <input
           type="text"
@@ -70,7 +89,7 @@ const EditableRow = ({
         />
       </td>
 
-       <td>
+      <td>
         <input
           type="tel"
           className="border mt-3 mr-3"
@@ -79,7 +98,7 @@ const EditableRow = ({
           onChange={editHandleChange}
         />
       </td>
-        <td>
+      <td>
         <select
           name="status"
           value={editFormData?.status || ""}
@@ -103,49 +122,6 @@ const EditableRow = ({
           onChange={editHandleChange}
         />
       </td>
-
-      <td className="p-3">
-        <div className="flex gap-3 justify-around">
-          <button
-            className="px-3 py-2 bg-blue-500 rounded-lg hover:cursor-pointer hover:bg-blue-400"
-            onClick={handleEditSave}
-            type="submit"
-          >
-            Save
-          </button>
-          <button
-            className="px-3 py-2 bg-yellow-500 rounded-lg hover:cursor-pointer hover:bg-yellow-400"
-            onClick={handleEditCancel}
-          >
-            Cancel
-          </button>
-        </div>
-      </td>
-      <td>
-        <input
-          type="email"
-          className="border mt-3 mr-3"
-          value={editFormData.email}
-          name="email"
-          onChange={editHandleChange}
-        />
-      </td>
-
-     
-
-      <td>
-        <select
-          name="linkedInProfile"
-          value={editFormData?.linkedInProfile || ""}
-          onChange={editHandleChange}
-          className="border mt-3 mr-3  rounded"
-        >
-          <option value="">Select</option>
-          <option value="yes">Yes</option>
-          <option value="no">No</option>
-        </select>
-      </td>
-
       <td>
         <input
           type="number"
@@ -155,18 +131,6 @@ const EditableRow = ({
           onChange={editHandleChange}
         />
       </td>
-
-      <td>
-        <input
-          type="text"
-          className="border mt-3 mr-3"
-          value={editFormData.linkedinURL}
-          name="linkedinURL"
-          onChange={editHandleChange}
-        />
-      </td>
-
-    
 
       <td>
         <input
@@ -194,6 +158,88 @@ const EditableRow = ({
           <option value="6 months">6 months</option>
         </select>
       </td>
+
+      <td>
+        <select
+          name="fieldType"
+          value={editFormData?.fieldType || ""}
+          onChange={editHandleChange}
+          className="border mt-3 mr-3  rounded"
+        >
+          <option value="">Select</option>
+          <option value="Part Time">Part Time</option>
+          <option value="Full Time">Full Time</option>
+        </select>
+      </td>
+
+        <td>
+        <input
+          type="email"
+          className="border mt-3 mr-3"
+          value={editFormData.email}
+          name="email"
+          onChange={editHandleChange}
+        />
+      </td>
+
+      <td>
+        <input
+          type="text"
+          className="border mt-3 mr-3"
+          value={editFormData.offerLetterSent}
+          name="offerLetterSent"
+          placeholder=""
+          onChange={editHandleChange}
+        />
+      </td>
+
+      <td>
+        <input
+          type="text"
+          className="border mt-3 mr-3"
+          value={editFormData.offerLetterAccepted}
+          name="offerLetterAccepted"
+          placeholder=""
+          onChange={editHandleChange}
+        />
+      </td>
+
+      <td>
+        <input
+          type="text"
+          className="border mt-3 mr-3"
+          value={editFormData.candidateEnrolled}
+          name="candidateEnrolled"
+          placeholder=""
+          onChange={editHandleChange}
+        />
+      </td>
+
+    
+
+      <td>
+        <select
+          name="linkedInProfile"
+          value={editFormData?.linkedInProfile || ""}
+          onChange={editHandleChange}
+          className="border mt-3 mr-3  rounded"
+        >
+          <option value="">Select</option>
+          <option value="yes">Yes</option>
+          <option value="no">No</option>
+        </select>
+      </td>
+
+      <td>
+        <input
+          type="text"
+          className="border mt-3 mr-3"
+          value={editFormData.linkedinURL}
+          name="linkedinURL"
+          onChange={editHandleChange}
+        />
+      </td>
+
       <td>
         <input
           type="text"
@@ -234,55 +280,15 @@ const EditableRow = ({
         />
       </td>
 
-      <td>
+      {/* <td>
         <input
           type="text"
           className="border mt-3 mr-3"
-          value={editFormData.offerLetterSent}
-          name="offerLetterSent"
-          placeholder=""
+          value={editFormData.interviewedBy}
+          name="interviewedBy"
           onChange={editHandleChange}
         />
-      </td>
-
-      <td>
-        <input
-          type="text"
-          className="border mt-3 mr-3"
-          value={editFormData.offerLetterAccepted}
-          name="offerLetterAccepted"
-          placeholder=""
-          onChange={editHandleChange}
-        />
-      </td>
-
-      <td>
-        <input
-          type="text"
-          className="border mt-3 mr-3"
-          value={editFormData.candidateEnrolled}
-          name="candidateEnrolled"
-          placeholder=""
-          onChange={editHandleChange}
-        />
-      </td>
-
-      <td>
-        <select
-          name="fieldType"
-          value={editFormData?.fieldType || ""}
-          onChange={editHandleChange}
-          className="border mt-3 mr-3  rounded"
-        >
-          <option value="">Select</option>
-          <option value="Part Time">Part Time</option>
-          <option value="Full Time">Full Time</option>
-        </select>
-      </td>
-
-       
-
-      
+      </td> */}
     </tr>
   );
 };

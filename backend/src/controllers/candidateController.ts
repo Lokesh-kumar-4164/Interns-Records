@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import Candidate from "../models/candidate";
 import { sendJoiningReminderEmailToHR } from "../utils/sendEmailToHR";
 import { sendJoiningReminderEmailToCandidate } from "../utils/sendEmailToCandidate";
+import Admin from "../models/admin";
 import XLSX from "xlsx";
 
 // Add Candidate
@@ -389,3 +390,5 @@ export const uploadExcelController = async (req: Request, res: Response) => {
     });
   }
 };
+
+

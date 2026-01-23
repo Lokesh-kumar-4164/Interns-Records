@@ -11,8 +11,10 @@ app.use(cors());
 app.use(express.json());
 
 import candidateRoute from "./routes/candidateRoute";
+import adminRoute from "./routes/adminRoutes"
 
 app.use("/api/candidate", candidateRoute);
+app.use("/api/admin",adminRoute)
 
 const PORT = Number(process.env.PORT);
 

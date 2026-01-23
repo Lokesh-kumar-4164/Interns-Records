@@ -1,7 +1,7 @@
 import Navbar from "./components/Navbar"
 import AppRoute from "./routes/AppRoute"
 
-Navbar
+
 function App() {
   return (
     <>
