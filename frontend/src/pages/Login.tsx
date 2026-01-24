@@ -46,6 +46,7 @@ const LoginPage: React.FC = () => {
       localStorage.setItem('authToken', data.token);
       if(data){
         setAdmin(data);
+        console.log(admin);
         navigate("/add-candidate");
       }
     } catch (err) {
