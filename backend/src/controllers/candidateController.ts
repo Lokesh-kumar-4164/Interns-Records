@@ -391,4 +391,20 @@ export const uploadExcelController = async (req: Request, res: Response) => {
   }
 };
 
+export const LoginCandidate = async (req:Request,res:Response)=>{
+  try{
+    const {email,password} = req.body;
+    if(!email || !password){
+      throw new Error("Missing email or password");
+    }
+    const user = await Candidate.findOne({email});
+    if(!user){
+      res.status(404).json({message: "user not found"});
+    }
+    res.status(200).json(user);
+  }catch(e){
+    console.log(e);
+  }
+}
+
 

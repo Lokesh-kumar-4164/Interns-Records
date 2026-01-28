@@ -44,11 +44,12 @@ const ReadOnlyRow = ({ candidate, onDelete, onEdit }: ReadOnlyRowProps) => {
       </td>
       <td className="p-3">{candidate.duration || "N/A"}</td>
       <td className="p-3">{candidate?.fieldType || "Pending..."}</td>
+      <td className="p-3">{candidate.email}</td>
       <td className="p-3">{candidate?.offerLetterSent || "Pending..."}</td>
       <td className="p-3">{candidate?.offerLetterAccepted || "Pending..."}</td>
       <td className="p-3">{candidate?.candidateEnrolled || "Pending..."}</td>
 
-      <td className="p-3">{candidate.email}</td>
+      
 
       <td className="p-3">{candidate?.linkedInProfile || "Pending..."}</td>
 
@@ -78,6 +79,7 @@ const ReadOnlyRow = ({ candidate, onDelete, onEdit }: ReadOnlyRowProps) => {
             })
           : "N/A"}
       </td>
+      {/* <td className="p-3">{candidate.interviewedBy}</td> */}
     </tr>
   );
 };

@@ -33,7 +33,7 @@ const AdminSchema: Schema = new Schema(
     },
     role: {
       type: String,
-      enum: ['superadmin', 'moderator', 'editor'],
+      enum: ['superadmin', 'editor'],
       default: 'editor'
     },
     isActive: {
