@@ -1,117 +1,96 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import VerifyPopUp from "../components/VerifyOTP";
-
-interface LoginResponse {
-  token: string;
-  user: {
-    id: string;
-    role: string;
-    name: string;
-  };
-}
-
-const VITE_URL = import.meta.env.VITE_API_URL;
-
 const LoginPage: React.FC = () => {
+  const [email, setEmail] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [isOpen, setIsOpen] = useState(false);
-
-  const fetchUser = async (): Promise<LoginResponse> => {
-    const response = await fetch(`${VITE_URL}/admin/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
-
-    if (!response.ok) {
-      throw new Error("Invalid credentials");
-    }
-
-    return response.json();
-  };
-
-  const handleResetPassword = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-
-    try {
-      const roleCheck = await fetch(
-        `${VITE_URL}/admin/check-role?email=${encodeURIComponent(email)}`,
-        {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        },
-      );
-
-      if (!roleCheck.ok) {
-        throw new Error("Failed to check role");
-      }
-
-      const data = await roleCheck.json();
-
-      if (data.role !== "superadmin") {
-        alert("Only super admin can reset password");
-        return;
-      }
-
-      const response = await fetch(`${VITE_URL}/admin/reset-password`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to send reset mail");
-      }
-
-      setIsOpen(true);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong");
-    }
-  };
-
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleCreateUser = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setIsLoading(true);
-
     const regEx = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     if (!regEx.test(email) || password.length < 6) {
-      setError("Please enter a valid email and password");
+      setError(
+        "Please enter a valid email and a password with at least 6 characters.",
+      );
       setIsLoading(false);
       return;
     }
 
     try {
-      const data = await fetchUser();
+      const response = await fetch(
+        "http://localhost:4000/api/admin/createuser",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ username, email, password }),
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to create user");
+      }
+
+      const data = await response.json();
 
       localStorage.setItem("authToken", data.token);
-
-      if (data.user.role === "superadmin") {
-        navigate("/create-user");
-      } else if (data.user.role === "editor") {
-        navigate("/add-candidate");
+      if (data) {
+        if (data.message) {
+          alert(data.message);
+        }
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Login failed");
+      setError(
+        err instanceof Error ? err.message : "An unexpected error occurred",
+      );
     } finally {
       setIsLoading(false);
     }
+    setEmail("");
+    setPassword("");
+    setUsername("");
   };
+
+  const navigateToUpdate = (e:React.FormEvent) => {
+    e.preventDefault()
+    navigate('/update-password')
+  }
 
   return (
     <div style={styles.container}>
-      {isOpen && <VerifyPopUp email={email} />}
       <div style={styles.card}>
-        <h2 style={{ textAlign: "center", marginBottom: "20px" }}>Login</h2>
-        <form onSubmit={handleLogin}>
+        <p className="text-center opacity-50 font-semibold">
+          Logged in as Admin
+        </p>
+        <h2
+          style={{
+            textAlign: "center",
+            marginBottom: "20px",
+            fontWeight: "bold",
+            fontSize: "24px",
+          }}
+        >
+          Add User
+        </h2>
+        <form onSubmit={handleCreateUser}>
+          <div style={styles.inputGroup}>
+            <label style={styles.label}>Username</label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              style={styles.input}
+              disabled={isLoading}
+              required
+            />
+          </div>
           <div style={styles.inputGroup}>
             <label style={styles.label}>Email</label>
             <input
@@ -123,7 +102,6 @@ const LoginPage: React.FC = () => {
               required
             />
           </div>
-
           <div style={styles.inputGroup}>
             <label style={styles.label}>Password</label>
             <input
@@ -137,7 +115,6 @@ const LoginPage: React.FC = () => {
           </div>
 
           {error && <div style={styles.errorBox}>{error}</div>}
-
           <button
             type="submit"
             style={{
@@ -147,17 +124,11 @@ const LoginPage: React.FC = () => {
             }}
             disabled={isLoading}
           >
-            {isLoading ? "Loading..." : "Sign In"}
+            {isLoading ? "Loading..." : "Create user"}
           </button>
 
-          <div className="flex justify-end">
-            <button
-              className="text-sm text-gray-600 hover:text-gray-800 m-4"
-              onClick={handleResetPassword}
-              type="button"
-            >
-              Reset password
-            </button>
+          <div className="flex justify-end m-4 hover:text-blue-500">
+            <button onClick={navigateToUpdate}>Update users passwords?</button>
           </div>
         </form>
       </div>
@@ -171,7 +142,9 @@ const styles: { [key: string]: React.CSSProperties } = {
     justifyContent: "center",
     alignItems: "center",
     height: "100vh",
+    width: "50vw",
     backgroundColor: "#f0f2f5",
+    borderRadius: "10px",
   },
   card: {
     padding: "40px",

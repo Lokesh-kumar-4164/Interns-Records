@@ -1,6 +1,21 @@
 
 import { Request, Response } from "express";
 import Admin from "../models/admin";
+import PasswordResetOTP from "../models/passwordResetOTP";
+import nodemailer from 'nodemailer'
+import bcryptjs from 'bcryptjs'
+
+interface LoginResponse {
+  token: string;
+  user: {
+    id: string;
+    role: string;
+    name: string;
+  },
+}
+
+
+
 export const LoginValidationController = async (req: Request, res: Response) => {
     try{
       
@@ -10,13 +25,154 @@ export const LoginValidationController = async (req: Request, res: Response) => 
         throw new Error("Missing email or password");
       }
 
-      const user = await Admin.findOne({email});
-      if(!user){
-        res.status(404).json({message: "Admin not found"});
+      const person = await Admin.findOne({email});
+      let role = "editor";
+      if(person && person.role==='superadmin'){
+        role = "superadmin";
       }
 
-      res.status(200).json(user);
+      if(person){
+        const data: LoginResponse = {
+          token:"token",
+          user:{
+            id:`${person._id}`,
+            role:role,
+            name:person.username
+          }}
+
+        res.status(200).json(data);
+      }
+
+      res.status(404).json({message:"user not found"});
     }catch(e){
       console.log(e);
     }
 };
+
+export const createUser = async (req:Request,res:Response) => {
+  try{
+    const {username,email,password} = req.body;
+    const admin = new Admin({username,email,passwordHash:password});
+    await admin.save();
+    res.status(200).json({message:"user created successfully"});
+  }catch(e){
+    console.log(e);
+  }
+}
+
+export const passwordReset = async (req: Request, res: Response) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({ message: "Email is required", otpSent: false });
+    }
+
+    const admin = await Admin.findOne({ email });
+    if (!admin) {
+      return res.status(400).json({ message: "No user found", otpSent: false });
+    }
+
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.SENDERMAIL,
+        pass: process.env.MAILPASSWORD,
+      },
+    });
+
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const otpHashy = await bcryptjs.hash(otp, 10);
+
+    await transporter.sendMail({
+      from: process.env.SENDERMAIL,
+      to: email,
+      subject: "Regarding reset password request",
+      text: `Dear user,\nYour OTP is ${otp}. It is valid for 5 minutes.`,
+    });
+
+    await PasswordResetOTP.findOneAndUpdate(
+      { email },
+      {
+        email,
+        otpHash:otpHashy,
+        expiresAt: new Date(Date.now() + 5 * 60 * 1000),
+        attempts: 0,
+      },
+      { upsert: true }
+    );
+
+    return res.status(200).json({ message: "Otp sent successfully", otpSent: true });
+  } catch (e) {
+    return res.status(500).json({ message: "Internal server error", otpSent: false });
+  }
+};
+
+export const verifyOTP = async (req: Request, res: Response) => {
+  try {
+    const { email, otp:enteredOTP } = req.body;
+
+    if (!email || !enteredOTP) {
+      return res.status(400).json({ message: "Invalid request", verified: false });
+    }
+
+    const otpDoc = await PasswordResetOTP.findOne({ email });
+    if (!otpDoc) {
+      return res.status(400).json({ message: "Invalid OTP", verified: false });
+    }
+
+    if (otpDoc.expiresAt < new Date()) {
+      await PasswordResetOTP.deleteOne({ email });
+      return res.status(400).json({ message: "OTP expired", verified: false });
+    }
+
+    if (otpDoc.attempts >= 5) {
+      await PasswordResetOTP.deleteOne({ email });
+      return res.status(400).json({ message: "Too many attempts", verified: false });
+    }
+
+    const isValid = await bcryptjs.compare(enteredOTP, otpDoc.otpHash);
+
+    if (!isValid) {
+      await PasswordResetOTP.updateOne(
+        { email },
+        { $inc: { attempts: 1 } }
+      );
+      return res.status(400).json({ message: "Invalid OTP", verified: false });
+    }
+
+    await PasswordResetOTP.deleteOne({ email });
+
+    return res.status(200).json({ message: "OTP verified", verified: true });
+  } catch (e) {
+    return res.status(500).json({ message: "Internal server error", verified: false });
+  }
+};
+
+export const updatePassword = async (req:Request, res:Response) => {
+  try{
+    const {email,password} = req.body
+    const update = await Admin.findOneAndUpdate({email});
+    if(!update){
+      console.log("Error in db while updating password" );
+      return res.status(400).json({message:"Failed to update password"});
+    }
+    res.status(200).json({message:"Password updated successfully"});
+  }catch(e){
+    console.log("Error while updating password");
+  }
+}
+
+export const checkRole = async (req:Request, res:Response) => {
+  try{
+    const email = req.query.email as string;
+    const user = await Admin.findOne({email});
+    if(user){
+      return res.status(200).json({role:user.role});
+      
+    }
+     res.status(404).json({message:"user not found"});
+  }catch(e){
+    console.log(e);
+  }
+}
