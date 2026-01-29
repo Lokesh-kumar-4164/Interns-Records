@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import VerifyPopUp from "../components/VerifyOTP";
+import { useLoginStore } from "../store/authStore";
 
 interface LoginResponse {
   token: string;
@@ -11,11 +12,17 @@ interface LoginResponse {
   };
 }
 
+type User = {
+  email:string,
+  user:string,
+  role:string
+}
+
 const VITE_URL = import.meta.env.VITE_API_URL;
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
-
+  const { login } = useLoginStore();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -93,6 +100,16 @@ const LoginPage: React.FC = () => {
       const data = await fetchUser();
 
       localStorage.setItem("authToken", data.token);
+
+      const user:User = {
+        email,
+        user:data.user.name,
+        role:data.user.role
+      }
+
+      login(user);
+
+
 
       if (data.user.role === "superadmin") {
         navigate("/create-user");
