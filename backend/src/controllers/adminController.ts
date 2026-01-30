@@ -40,7 +40,7 @@ export const LoginValidationController = async (req: Request, res: Response) => 
             name:person.username
           }}
 
-        res.status(200).json(data);
+        return res.status(200).json(data);
       }
 
       res.status(404).json({message:"user not found"});
@@ -157,7 +157,7 @@ export const updatePassword = async (req:Request, res:Response) => {
       console.log("Error in db while updating password" );
       return res.status(400).json({message:"Failed to update password"});
     }
-    res.status(200).json({message:"Password updated successfully"});
+    return res.status(200).json({message:"Password updated successfully"});
   }catch(e){
     console.log("Error while updating password");
   }
