@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+const VITE_API_URL = import.meta.env.VITE_API_URL;
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [username, setUsername] = useState<string>("");
@@ -24,7 +25,7 @@ const LoginPage: React.FC = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:4000/api/admin/createuser",
+        `${VITE_API_URL}/admin/createuser`,
         {
           method: "POST",
           headers: {
