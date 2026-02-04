@@ -27,6 +27,7 @@ export const LoginValidationController = async (req: Request, res: Response) => 
 
       const person = await Admin.findOne({email});
       let role = "editor";
+      
       if(person && person.role==='superadmin'){
         role = "superadmin";
       }
@@ -172,6 +173,24 @@ export const checkRole = async (req:Request, res:Response) => {
       
     }
      res.status(404).json({message:"user not found"});
+  }catch(e){
+    console.log(e);
+  }
+}
+
+
+export const getUsers = async (req:Request, res:Response) => {
+  try{
+    const userData = await Admin.find({role:"editor"});
+    const users = userData.map((user) => {
+      return {
+        id:user._id,
+        name:user.username,
+        email:user.email
+      }
+    })
+
+    res.status(200).json(users);
   }catch(e){
     console.log(e);
   }

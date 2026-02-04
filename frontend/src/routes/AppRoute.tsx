@@ -5,6 +5,7 @@ import  LoginPage  from "../pages/Login"
 import CreateUser from "../pages/CreateUser"
 import ResetPassword from "../pages/UpdatePassword"
 import UpdatePassword from "../pages/UpdatePassword"
+import AllUsers from "../pages/AllUsers"
 const AppRoute = () =>{
   return(
 <Routes>
@@ -14,6 +15,7 @@ const AppRoute = () =>{
   <Route path="/create-user" element={<CreateUser/>}></Route>
   <Route path="/reset-password" element={<ResetPassword/>}></Route>
   <Route path="/update-password" element={<UpdatePassword/>}></Route>
+  <Route path="/all-users" element={<AllUsers/>}></Route>
 </Routes>
   )
 }
