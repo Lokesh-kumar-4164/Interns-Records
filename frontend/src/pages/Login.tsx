@@ -108,14 +108,8 @@ const LoginPage: React.FC = () => {
       }
 
       login(user);
-
-
-
-      if (data.user.role === "superadmin") {
-        navigate("/create-user");
-      } else if (data.user.role === "editor") {
-        navigate("/add-candidate");
-      }
+      navigate("/add-candidate");
+      
     } catch (err) {
       setError(err instanceof Error ? err.message : "Login failed");
     } finally {

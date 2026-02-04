@@ -12,6 +12,11 @@ const Navbar = () => {
         />
       </div>
       <ul className="flex gap-1 text-sm lg:text-lg font-medium lg:gap-4">
+        {user && user.role==='superadmin' && <Link to="/all-users">
+        <li className="text-gray-600 hover:cursor-pointer hover:text-cyan-500 hover:shodow-lg">
+          All users
+        </li>
+        </Link>}
         {user && <Link to="/add-candidate">
         <li className="text-cyan-600 hover:cursor-pointer hover:text-cyan-500 hover:shodow-lg">
           Add Candidate
