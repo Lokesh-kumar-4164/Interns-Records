@@ -51,9 +51,9 @@ const UserTable: React.FC = () => {
 
 
     }catch(e){
-      console.log(e);
+      console.log(`e`);
     }
-  }
+  } 
 
 
   const addUsersBtn = <button 
