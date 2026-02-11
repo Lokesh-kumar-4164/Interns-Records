@@ -6,7 +6,8 @@ import {
     verifyOTP,
     updatePassword,
     checkRole,
-    getUsers
+    getUsers,
+    removeUser
 } from "../controllers/adminController";
 import { Router } from "express";
 
@@ -19,5 +20,6 @@ router.post("/verify-otp",verifyOTP)
 router.post("/update-password",updatePassword);
 router.get("/check-role", checkRole);
 router.get("/get-users",getUsers);
+router.delete("/remove-user/:id",removeUser);
 
 export default router;

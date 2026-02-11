@@ -195,3 +195,19 @@ export const getUsers = async (req:Request, res:Response) => {
     console.log(e);
   }
 }
+
+export const removeUser = async (req:Request, res:Response) => {
+  try{
+    const email = req.params.id;
+    const user = await Admin.findOneAndDelete({email});
+
+    if(user){
+      return res.status(200).json({message: 'User successfully deleted'});
+    }
+
+    res.status(404).json({message:"user not found"});
+  }catch(e){
+    console.log(e);
+
+  }
+}

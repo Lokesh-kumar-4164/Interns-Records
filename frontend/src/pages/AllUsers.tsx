@@ -12,6 +12,7 @@ const VITE_API_URL = import.meta.env.VITE_API_URL
 const UserTable: React.FC = () => {
     const navigate = useNavigate();
     const [users,setUsers] = useState<User[]>([])
+    
 
     try{
         useEffect(() => {
@@ -37,9 +38,27 @@ const UserTable: React.FC = () => {
     navigate('/update-password',{state:{email}});
   };
 
+  const handleRemoveUser = async (email:string) => {
+    try{
+      const response = await fetch(`${VITE_API_URL}/admin/remove-user/${email}`,{
+        method:"DELETE",
+      })
+
+      const data = await response.json();
+
+      setUsers(users.filter((user) => user.email !== email));
+      alert(data.message);
+
+
+    }catch(e){
+      console.log(e);
+    }
+  }
+
+
   const addUsersBtn = <button 
 
-        className='p-2 hover:bg-blue-400 bg-blue-600 rounded-2xl text-white fixed top-[85%] left-[90%]' 
+        className='p-2 hover:bg-blue-400 bg-blue-600 rounded-2xl text-white shadow-2xl' 
         onClick={() => navigate('/create-user')}
       >
         Add users
@@ -48,7 +67,7 @@ const UserTable: React.FC = () => {
 
   if(users.length===0){
     return (
-    <div>
+    <div> 
       <h1 className='m-40 font-semibold'>No users found</h1>
       {addUsersBtn}
     </div>
@@ -81,6 +100,13 @@ const UserTable: React.FC = () => {
                 >
                   Change Password 
                 </button>
+
+                <button 
+                  onClick={() => handleRemoveUser(user.email)}
+                  className='p-2 hover:bg-red-400 bg-red-600 rounded-sm text-white shadow-2xl m-2'
+                >
+                  Remove
+                </button>
               </td>
             </tr>
           ))}
@@ -93,6 +119,7 @@ const UserTable: React.FC = () => {
 
 const cellStyle: React.CSSProperties = {
   padding: '12px',
+  textAlign:'center',
   border: '1px solid #ddd'
 };
 
