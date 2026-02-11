@@ -37,14 +37,29 @@ const UserTable: React.FC = () => {
     navigate('/update-password',{state:{email}});
   };
 
+  const addUsersBtn = <button 
+
+        className='p-2 hover:bg-blue-400 bg-blue-600 rounded-2xl text-white fixed top-[85%] left-[90%]' 
+        onClick={() => navigate('/create-user')}
+      >
+        Add users
+      </button>
+
+
   if(users.length===0){
-    return <h1 className='m-40 font-semibold'>No users found</h1>
+    return (
+    <div>
+      <h1 className='m-40 font-semibold'>No users found</h1>
+      {addUsersBtn}
+    </div>
+    )
   }
 
   return (
     <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
+      
       <h2 style={{ color: '#2c3e50' }}>All users</h2>
-
+      {addUsersBtn}
       
       <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '10px' }}>
         <thead>
