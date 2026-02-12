@@ -13,10 +13,10 @@ interface LoginResponse {
 }
 
 type User = {
-  email:string,
-  user:string,
-  role:string
-}
+  email: string;
+  user: string;
+  role: string;
+};
 
 const VITE_URL = import.meta.env.VITE_API_URL;
 
@@ -53,7 +53,7 @@ const LoginPage: React.FC = () => {
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },
-        },
+        }
       );
 
       if (!roleCheck.ok) {
@@ -101,15 +101,14 @@ const LoginPage: React.FC = () => {
 
       localStorage.setItem("authToken", data.token);
 
-      const user:User = {
+      const user: User = {
         email,
-        user:data.user.name,
-        role:data.user.role
-      }
+        user: data.user.name,
+        role: data.user.role,
+      };
 
       login(user);
       navigate("/add-candidate");
-      
     } catch (err) {
       setError(err instanceof Error ? err.message : "Login failed");
     } finally {
@@ -121,12 +120,13 @@ const LoginPage: React.FC = () => {
     <div style={styles.container}>
       {isOpen && <VerifyPopUp email={email} />}
       <div style={styles.card}>
-        <h2 style={{ textAlign: "center", marginBottom: "20px" }}>Login</h2>
+        <h2 style={styles.title}>Log In</h2>
         <form onSubmit={handleLogin}>
           <div style={styles.inputGroup}>
             <label style={styles.label}>Email</label>
             <input
               type="email"
+              placeholder="you@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               style={styles.input}
@@ -139,6 +139,7 @@ const LoginPage: React.FC = () => {
             <label style={styles.label}>Password</label>
             <input
               type="password"
+              placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               style={styles.input}
@@ -153,7 +154,7 @@ const LoginPage: React.FC = () => {
             type="submit"
             style={{
               ...styles.button,
-              backgroundColor: isLoading ? "#ccc" : "#007bff",
+              opacity: isLoading ? 0.7 : 1,
               cursor: isLoading ? "not-allowed" : "pointer",
             }}
             disabled={isLoading}
@@ -161,9 +162,9 @@ const LoginPage: React.FC = () => {
             {isLoading ? "Loading..." : "Sign In"}
           </button>
 
-          <div className="flex justify-end">
+          <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "15px" }}>
             <button
-              className="text-sm text-gray-600 hover:text-gray-800 m-4"
+              style={styles.resetBtn}
               onClick={handleResetPassword}
               type="button"
             >
@@ -182,43 +183,69 @@ const styles: { [key: string]: React.CSSProperties } = {
     justifyContent: "center",
     alignItems: "center",
     height: "100vh",
-    backgroundColor: "#f0f2f5",
+    backgroundColor: "#ffffff", 
+    width: "100%",
   },
   card: {
-    padding: "40px",
-    borderRadius: "10px",
-    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-    backgroundColor: "white",
+    padding: "50px 40px",
+    borderRadius: "24px",
+    backgroundColor: "#0a3d62", 
     width: "100%",
-    maxWidth: "400px",
+    maxWidth: "450px",
+    boxShadow: "0 10px 25px rgba(0,0,0,0.2)",
+    color: "white",
+    fontFamily: "sans-serif",
+  },
+  title: {
+    textAlign: "center",
+    marginBottom: "30px",
+    fontSize: "28px",
+    fontWeight: "bold",
   },
   inputGroup: {
-    marginBottom: "15px",
+    marginBottom: "20px",
   },
   label: {
     display: "block",
-    marginBottom: "5px",
-    fontWeight: "bold",
+    marginBottom: "8px",
+    fontWeight: "500",
+    fontSize: "14px",
+    color: "#e0e0e0",
   },
   input: {
     width: "100%",
-    padding: "10px",
-    borderRadius: "5px",
-    border: "1px solid #ccc",
+    padding: "12px 16px",
+    borderRadius: "8px",
+    border: "1px solid #1e5a84",
+    backgroundColor: "#104e7a", 
+    color: "white",
     boxSizing: "border-box",
+    outline: "none",
+    fontSize: "15px",
   },
   button: {
     width: "100%",
-    padding: "12px",
-    color: "white",
+    padding: "14px",
+    color: "#0a3d62",
+    fontWeight: "bold",
     border: "none",
-    borderRadius: "5px",
+    borderRadius: "12px",
     fontSize: "16px",
-    marginTop: "10px",
+    marginTop: "20px",
+    background: "linear-gradient(to right, #1dd1a1, #10ac84)", // Teal gradient
+    transition: "0.3s",
+  },
+  resetBtn: {
+    background: "none",
+    border: "none",
+    color: "#a0a0a0",
+    fontSize: "13px",
+    cursor: "pointer",
+    textDecoration: "none",
   },
   errorBox: {
-    color: "#d9534f",
-    backgroundColor: "#fdeded",
+    color: "#ff6b6b",
+    backgroundColor: "rgba(255, 107, 107, 0.1)",
     padding: "10px",
     borderRadius: "5px",
     marginBottom: "15px",
