@@ -211,3 +211,16 @@ export const removeUser = async (req:Request, res:Response) => {
 
   }
 }
+
+export const checkMail = async (req:Request, res:Response) => {
+  try{
+    const email = req.query.email as string;
+    const user = await Admin.findOne({email});
+    if(user){
+      return res.status(200).json({message:"Email already exists"});
+    }
+    return res.status(200).json({message:"Email available"});
+  }catch(e){
+    console.log(e);
+  }
+}

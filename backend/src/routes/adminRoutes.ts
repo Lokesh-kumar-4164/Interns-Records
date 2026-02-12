@@ -7,7 +7,8 @@ import {
     updatePassword,
     checkRole,
     getUsers,
-    removeUser
+    removeUser,
+    checkMail
 } from "../controllers/adminController";
 import { Router } from "express";
 
@@ -21,5 +22,6 @@ router.post("/update-password",updatePassword);
 router.get("/check-role", checkRole);
 router.get("/get-users",getUsers);
 router.delete("/remove-user/:id",removeUser);
+router.get("/check-mail",checkMail);
 
 export default router;
