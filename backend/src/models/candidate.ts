@@ -49,6 +49,7 @@ const candidateSchema = new Schema<ICandidate>(
     phone: {
       type: String,
       required: true,
+      unique: true,
     },
     linkedInProfile: {
       type: String,
