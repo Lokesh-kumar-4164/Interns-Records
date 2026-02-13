@@ -28,7 +28,7 @@ const AddCandidate = () => {
   });
 
   const navigate = useNavigate();
-  const [mailValidity,setMailValidity] = useState("");
+  const [mailValidity, setMailValidity] = useState("");
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -54,16 +54,16 @@ const AddCandidate = () => {
 
   const checkMail = async (e: React.FormEvent) => {
     e.preventDefault();
-    try{
-      const response = await fetch(`${VITE_API_URL}/admin/check-mail?email=${formData.email}`,{
-        method:"GET",
+    try {
+      const response = await fetch(`${VITE_API_URL}/admin/check-mail?email=${formData.email}`, {
+        method: "GET",
       });
 
 
       const res = await response.json();
       setMailValidity(res.message);
-      
-    }catch(e){
+
+    } catch (e) {
       console.log(e);
     }
   }
@@ -118,10 +118,10 @@ const AddCandidate = () => {
           {mailValidity}
 
           <div>
-            <button 
-            className="p-3 bg-blue-600 rounded-md text-white hover:bg-blue-500"
-            onClick={checkMail}
-          >Verify mail</button>
+            <button
+              className="p-3 bg-blue-600 rounded-md text-white hover:bg-blue-500"
+              onClick={checkMail}
+            >Verify mail</button>
           </div>
 
           <div className="flex flex-col ">
@@ -213,6 +213,7 @@ const AddCandidate = () => {
 
           <div className="flex lg:mt-6 w-full justify-center">
             <button
+              onClick={handleSubmit}
               type="submit"
               className="bg-cyan-600 px-6 py-3  rounded-lg text-white text-lg hover:cursor-pointer hover:bg-cyan-500"
             >
