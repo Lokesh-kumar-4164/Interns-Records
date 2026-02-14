@@ -28,6 +28,19 @@ export const candidateGetApi = async (
   return res.data;
 };
 
+export const candidateGetRejectedApi = async (
+  page: number = 1, 
+  limit: number = 10,
+  search: string = "",
+  jobPostedFrom?: string,
+  jobPostedTo?: string
+): Promise<CandidateListResponse> => {
+  const res = await axios.get(`${API_URL}/candidate/rejected`, {
+    params: { page, limit, search, jobPostedFrom, jobPostedTo },
+  });
+  return res.data;
+};
+
 export const candidateDeleteApi = async (
   id: string
 ): Promise<MessageResponse> => {

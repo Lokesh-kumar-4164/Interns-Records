@@ -1,13 +1,24 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { candidateGetApi, candidateDeleteApi } from "../api/candidateApi";
+import { candidateDeleteApi,candidateGetRejectedApi } from "../api/candidateApi";
 import { type Pagination, type Candidate } from "../types/candidate";
 import Loading from "../components/Loading";
 import ReadOnlyRow from "../components/ReadOnlyRow";
 import EditableRow from "../components/EditableRow";
 import React from "react";
 
-const AllCandidate = () => {
+/*************  ✨ Windsurf Command ⭐  *************/
+/**
+ * RejectedCandidates component renders a table of rejected candidates.
+ * It allows user to search, filter and delete candidates.
+ * It also allows user to edit candidate details.
+ * It uses pagination to limit the number of candidates displayed per page.
+ * It fetches data from the API and stores it in the component state.
+ * It uses useEffect to fetch data when the component mounts or when the search or pagination changes.
+ * It uses useState to manage the component state.
+ */
+/*******  a2e600ae-369b-49a6-b669-fbdb8ea09602  *******/
+const RejectedCandidates = () => {
   const [candidates, setCandidates] = useState<Candidate[]>([]);
   const [page, setPage] = useState<number>(1);
   const [limit] = useState<number>(5);
@@ -33,12 +44,12 @@ const AllCandidate = () => {
   useEffect(() => {
     const fetchCandidate = async (): Promise<void> => {
       try {
-        const data = await candidateGetApi(page, limit, search, jobPostedFrom);
+        const data = await candidateGetRejectedApi(page, limit, search, jobPostedFrom);
 
         const candidates = data?.candidate || [];
         const pagination = data?.pagination || {};
 
-        setCandidates(candidates);
+        setCandidates(candidates)
         setPagination((prev) => ({
           ...prev,
           page: Number(pagination?.page) || 1,
@@ -55,6 +66,8 @@ const AllCandidate = () => {
     };
     fetchCandidate();
   }, [page, search, limit, jobPostedFrom]);
+
+  
 
   const handleDelete = async (id: string): Promise<void> => {
     try {
@@ -91,14 +104,16 @@ const AllCandidate = () => {
       <div className="p-4 overflow-x-auto w-full  bg-white shadow-lg rounded-lg  flex flex-col my-4">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-3">
           <div className="flex gap-5 items-center">
-            <h2 className="text-xl font-semibold text-gray-800">
-              All Candidates
-            </h2>
-            <Link to="/rejected-candidates">
+            <Link to="/all-candidate">
               <button className="bg-blue-500 text-white p-3 rounded-xl  font-semibold hover:bg-blue-400">
-                Rejected Candidates
+                All Candidates
               </button>
             </Link>
+            <h2 className="text-xl font-semibold text-gray-800">
+                Rejected Candidates
+              
+            </h2>
+            
           </div>
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
             {/* Search */}
@@ -180,7 +195,8 @@ const AllCandidate = () => {
 
               <tbody>
                 {candidates?.length > 0 ? (
-                  candidates.map((candidate) => (
+                  candidates.map((candidate) =>
+                    (
                     <React.Fragment key={candidate._id}>
                       {editCandidateId === candidate._id ? (
                         <EditableRow
@@ -240,4 +256,4 @@ const AllCandidate = () => {
   );
 };
 
-export default AllCandidate;
+export default RejectedCandidates;
