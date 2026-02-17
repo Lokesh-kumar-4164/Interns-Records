@@ -9,9 +9,11 @@ import {
   getRejectedCandidateController,
 } from "../controllers/candidateController";
 import { uploadExcel } from "../middlewares/uploadExcel";
+import verifyToken from "../middlewares/authMiddleware";
 
 const router = express.Router();
 
+router.use(verifyToken);
 router.post("/add", addCandidateController);
 router.get("/", getCandidateController);
 router.delete("/:id", deleteCandidateController);

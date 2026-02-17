@@ -13,6 +13,7 @@ interface LoginResponse {
 }
 
 type User = {
+  id:string,
   email: string;
   user: string;
   role: string;
@@ -33,6 +34,7 @@ const LoginPage: React.FC = () => {
     const response = await fetch(`${VITE_URL}/admin/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      credentials:"include",
       body: JSON.stringify({ email, password }),
     });
 
@@ -52,6 +54,7 @@ const LoginPage: React.FC = () => {
         `${VITE_URL}/admin/check-role?email=${encodeURIComponent(email)}`,
         {
           method: "GET",
+          credentials: "include",
           headers: { "Content-Type": "application/json" },
         }
       );
@@ -70,6 +73,7 @@ const LoginPage: React.FC = () => {
       const response = await fetch(`${VITE_URL}/admin/reset-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ email }),
       });
 
@@ -102,6 +106,7 @@ const LoginPage: React.FC = () => {
       localStorage.setItem("authToken", data.token);
 
       const user: User = {
+        id:data.user.id,
         email,
         user: data.user.name,
         role: data.user.role,

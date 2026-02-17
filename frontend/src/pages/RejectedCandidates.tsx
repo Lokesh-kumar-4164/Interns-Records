@@ -7,17 +7,6 @@ import ReadOnlyRow from "../components/ReadOnlyRow";
 import EditableRow from "../components/EditableRow";
 import React from "react";
 
-/*************  ✨ Windsurf Command ⭐  *************/
-/**
- * RejectedCandidates component renders a table of rejected candidates.
- * It allows user to search, filter and delete candidates.
- * It also allows user to edit candidate details.
- * It uses pagination to limit the number of candidates displayed per page.
- * It fetches data from the API and stores it in the component state.
- * It uses useEffect to fetch data when the component mounts or when the search or pagination changes.
- * It uses useState to manage the component state.
- */
-/*******  a2e600ae-369b-49a6-b669-fbdb8ea09602  *******/
 const RejectedCandidates = () => {
   const [candidates, setCandidates] = useState<Candidate[]>([]);
   const [page, setPage] = useState<number>(1);
