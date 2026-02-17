@@ -19,6 +19,7 @@ const UserTable: React.FC = () => {
             const func =  async ():Promise<void> => {
                 const response = await fetch(`${VITE_API_URL}/admin/get-users`,{
                     "method":"GET",
+                    credentials: "include",
                 })
 
                 if(!response.ok){
@@ -42,6 +43,7 @@ const UserTable: React.FC = () => {
     try{
       const response = await fetch(`${VITE_API_URL}/admin/remove-user/${email}`,{
         method:"DELETE",
+        credentials: "include"
       })
 
       const data = await response.json();
@@ -51,7 +53,7 @@ const UserTable: React.FC = () => {
 
 
     }catch(e){
-      console.log(`e`);
+      console.log(`${e}`);
     }
   } 
 

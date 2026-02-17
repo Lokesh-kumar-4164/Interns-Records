@@ -1,9 +1,9 @@
-
 import { Request, Response } from "express";
 import Admin from "../models/admin";
 import PasswordResetOTP from "../models/passwordResetOTP";
-import nodemailer from 'nodemailer'
-import bcryptjs from 'bcryptjs'
+import nodemailer from "nodemailer";
+import bcryptjs from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 interface LoginResponse {
   token: string;
@@ -11,62 +11,76 @@ interface LoginResponse {
     id: string;
     role: string;
     name: string;
-  },
+  };
 }
 
-
-
-export const LoginValidationController = async (req: Request, res: Response) => {
-    try{
-      
-      const { email, password} = req.body;
-      if(!email || !password){
-        console.log("Missing email or password");
-        throw new Error("Missing email or password");
-      }
-
-      const person = await Admin.findOne({email});
-      let role = "editor";
-      
-      if(person && person.role==='superadmin'){
-        role = "superadmin";
-      }
-
-      if(person){
-        const data: LoginResponse = {
-          token:"token",
-          user:{
-            id:`${person._id}`,
-            role:role,
-            name:person.username
-          }}
-
-        return res.status(200).json(data);
-      }
-
-      res.status(404).json({message:"user not found"});
-    }catch(e){
-      console.log(e);
+export const LoginValidationController = async (
+  req: Request,
+  res: Response,
+) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      console.log("Missing email or password");
+      throw new Error("Missing email or password");
     }
-};
 
-export const createUser = async (req:Request,res:Response) => {
-  try{
-    const {username,email,password} = req.body;
-    const admin = new Admin({username,email,passwordHash:password});
-    await admin.save();
-    res.status(200).json({message:"user created successfully"});
-  }catch(e){
+    const person = await Admin.findOne({ email });
+    let role = "editor";
+
+    if (person && person.role === "superadmin") {
+      role = "superadmin";
+    }
+
+    if (person) {
+      const token = jwt.sign({ id:person._id }, process.env.JWT_SECRET_KEY as string, {
+        expiresIn: "1d",
+      });
+
+      res.cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      });
+
+      const data: LoginResponse = {
+        token: token,
+        user: {
+          id: `${person._id}`,
+          role: role,
+          name: person.username,
+        },
+      };
+
+      return res.status(200).json(data);
+    }
+
+    res.status(404).json({ message: "user not found" });
+  } catch (e) {
     console.log(e);
   }
-}
+};
+
+export const createUser = async (req: Request, res: Response) => {
+  try {
+    const { username, email, password } = req.body;
+    const admin = new Admin({ username, email, passwordHash: password });
+    await admin.save();
+    res.status(200).json({ message: "user created successfully" });
+  } catch (e) {
+    console.log(e);
+  }
+};
 
 export const passwordReset = async (req: Request, res: Response) => {
   try {
     const { email } = req.body;
 
     if (!email) {
-      return res.status(400).json({ message: "Email is required", otpSent: false });
+      return res
+        .status(400)
+        .json({ message: "Email is required", otpSent: false });
     }
 
     const admin = await Admin.findOne({ email });
@@ -96,25 +110,31 @@ export const passwordReset = async (req: Request, res: Response) => {
       { email },
       {
         email,
-        otpHash:otpHashy,
+        otpHash: otpHashy,
         expiresAt: new Date(Date.now() + 5 * 60 * 1000),
         attempts: 0,
       },
-      { upsert: true }
+      { upsert: true },
     );
 
-    return res.status(200).json({ message: "Otp sent successfully", otpSent: true });
+    return res
+      .status(200)
+      .json({ message: "Otp sent successfully", otpSent: true });
   } catch (e) {
-    return res.status(500).json({ message: "Internal server error", otpSent: false });
+    return res
+      .status(500)
+      .json({ message: "Internal server error", otpSent: false });
   }
 };
 
 export const verifyOTP = async (req: Request, res: Response) => {
   try {
-    const { email, otp:enteredOTP } = req.body;
+    const { email, otp: enteredOTP } = req.body;
 
     if (!email || !enteredOTP) {
-      return res.status(400).json({ message: "Invalid request", verified: false });
+      return res
+        .status(400)
+        .json({ message: "Invalid request", verified: false });
     }
 
     const otpDoc = await PasswordResetOTP.findOne({ email });
@@ -129,16 +149,15 @@ export const verifyOTP = async (req: Request, res: Response) => {
 
     if (otpDoc.attempts >= 5) {
       await PasswordResetOTP.deleteOne({ email });
-      return res.status(400).json({ message: "Too many attempts", verified: false });
+      return res
+        .status(400)
+        .json({ message: "Too many attempts", verified: false });
     }
 
     const isValid = await bcryptjs.compare(enteredOTP, otpDoc.otpHash);
 
     if (!isValid) {
-      await PasswordResetOTP.updateOne(
-        { email },
-        { $inc: { attempts: 1 } }
-      );
+      await PasswordResetOTP.updateOne({ email }, { $inc: { attempts: 1 } });
       return res.status(400).json({ message: "Invalid OTP", verified: false });
     }
 
@@ -146,81 +165,80 @@ export const verifyOTP = async (req: Request, res: Response) => {
 
     return res.status(200).json({ message: "OTP verified", verified: true });
   } catch (e) {
-    return res.status(500).json({ message: "Internal server error", verified: false });
+    return res
+      .status(500)
+      .json({ message: "Internal server error", verified: false });
   }
 };
 
-export const updatePassword = async (req:Request, res:Response) => {
-  try{
-    const {email,password} = req.body
-    const update = await Admin.findOneAndUpdate({email});
-    if(!update){
-      console.log("Error in db while updating password" );
-      return res.status(400).json({message:"Failed to update password"});
+export const updatePassword = async (req: Request, res: Response) => {
+  try {
+    const { email, password } = req.body;
+    const update = await Admin.findOneAndUpdate({ email });
+    if (!update) {
+      console.log("Error in db while updating password");
+      return res.status(400).json({ message: "Failed to update password" });
     }
-    return res.status(200).json({message:"Password updated successfully"});
-  }catch(e){
+    return res.status(200).json({ message: "Password updated successfully" });
+  } catch (e) {
     console.log("Error while updating password");
   }
-}
+};
 
-export const checkRole = async (req:Request, res:Response) => {
-  try{
+export const checkRole = async (req: Request, res: Response) => {
+  try {
     const email = req.query.email as string;
-    const user = await Admin.findOne({email});
-    if(user){
-      return res.status(200).json({role:user.role});
-      
+    const user = await Admin.findOne({ email });
+    if (user) {
+      return res.status(200).json({ role: user.role });
     }
-     res.status(404).json({message:"user not found"});
-  }catch(e){
+    res.status(404).json({ message: "user not found" });
+  } catch (e) {
     console.log(e);
   }
-}
+};
 
-
-export const getUsers = async (req:Request, res:Response) => {
-  try{
-    const userData = await Admin.find({role:"editor"});
+export const getUsers = async (req: Request, res: Response) => {
+  try {
+    const userData = await Admin.find({ role: "editor" });
     const users = userData.map((user) => {
       return {
-        id:user._id,
-        name:user.username,
-        email:user.email
-      }
-    })
+        id: user._id,
+        name: user.username,
+        email: user.email,
+      };
+    });
 
     res.status(200).json(users);
-  }catch(e){
+  } catch (e) {
     console.log(e);
   }
-}
+};
 
-export const removeUser = async (req:Request, res:Response) => {
-  try{
+export const removeUser = async (req: Request, res: Response) => {
+  try {
     const email = req.params.id;
-    const user = await Admin.findOneAndDelete({email});
+    const user = await Admin.findOneAndDelete({ email });
 
-    if(user){
-      return res.status(200).json({message: 'User successfully deleted'});
+    if (user) {
+      return res.status(200).json({ message: "User successfully deleted" });
     }
 
-    res.status(404).json({message:"user not found"});
-  }catch(e){
+    res.status(404).json({ message: "user not found" });
+  } catch (e) {
     console.log(e);
-
   }
-}
+};
 
-export const checkMail = async (req:Request, res:Response) => {
-  try{
+export const checkMail = async (req: Request, res: Response) => {
+  try {
     const email = req.query.email as string;
-    const user = await Admin.findOne({email});
-    if(user){
-      return res.status(200).json({message:"Email already exists"});
+    const user = await Admin.findOne({ email });
+    if (user) {
+      return res.status(200).json({ message: "Email already exists" });
     }
-    return res.status(200).json({message:"Email available"});
-  }catch(e){
+    return res.status(200).json({ message: "Email available" });
+  } catch (e) {
     console.log(e);
   }
-}
+};
