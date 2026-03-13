@@ -34,7 +34,7 @@ export const LoginValidationController = async (
 
     if (person) {
       const token = jwt.sign({ id:person._id }, process.env.JWT_SECRET_KEY as string, {
-        expiresIn: "1d",
+        expiresIn: "7d",
       });
 
       res.cookie("token", token, {

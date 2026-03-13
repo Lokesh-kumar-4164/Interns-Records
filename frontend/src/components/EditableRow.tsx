@@ -124,16 +124,6 @@ const EditableRow = ({
       </td>
       <td>
         <input
-          type="number"
-          className="border mt-3 mr-3"
-          value={editFormData.linkedInAge}
-          name="linkedInAge"
-          onChange={editHandleChange}
-        />
-      </td>
-
-      <td>
-        <input
           type="date"
           className="border mt-3 mr-3"
           value={editFormData?.joiningDate?.slice(0, 10)}
@@ -141,6 +131,17 @@ const EditableRow = ({
           onChange={editHandleChange}
         />
       </td>
+      {/* <td>
+        <input
+          type="number"
+          className="border mt-3 mr-3"
+          value={editFormData.linkedInAge}
+          name="linkedInAge"
+          onChange={editHandleChange}
+        />
+      </td> */}
+
+      
 
       <td>
         <select
