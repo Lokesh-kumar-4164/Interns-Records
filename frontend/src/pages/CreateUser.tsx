@@ -94,6 +94,7 @@ const LoginPage: React.FC = () => {
               required
             />
           </div>
+          
           <div style={styles.inputGroup}>
             <label style={styles.label}>Email</label>
             <input
@@ -105,6 +106,7 @@ const LoginPage: React.FC = () => {
               required
             />
           </div>
+
           <div style={styles.inputGroup}>
             <label style={styles.label}>Password</label>
             <input
