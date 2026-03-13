@@ -57,6 +57,8 @@ const AddCandidate = () => {
     try {
       const response = await fetch(`${VITE_API_URL}/admin/check-mail?email=${formData.email}`, {
         method: "GET",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
       });
 
 
