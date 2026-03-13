@@ -28,11 +28,6 @@ const ReadOnlyRow = ({ candidate, onDelete, onEdit }: ReadOnlyRowProps) => {
       <td className="p-3">{candidate.phone}</td>
       <td className="p-3">{candidate?.status || "Pending..."}</td>
       <td className="p-3">{candidate?.comment || "Pending..."}</td>
-      <td className="p-3">{`${
-        candidate?.linkedInAge == undefined
-          ? "pending..."
-          : candidate.linkedInAge + "year"
-      }`}</td>
       <td className="p-3">
         {candidate.joiningDate && !isNaN(Date.parse(candidate.joiningDate))
           ? new Date(candidate.joiningDate).toLocaleDateString("en-US", {
@@ -42,8 +37,15 @@ const ReadOnlyRow = ({ candidate, onDelete, onEdit }: ReadOnlyRowProps) => {
             })
           : "N/A"}
       </td>
-      <td className="p-3">{candidate.duration || "N/A"}</td>
+      {/* <td className="p-3">{`${
+        candidate?.linkedInAge == undefined
+          ? "pending..."
+          : candidate.linkedInAge + "year"
+      }`}</td> */}
+      
       <td className="p-3">{candidate?.fieldType || "Pending..."}</td>
+      <td className="p-3">{candidate.duration || "N/A"}</td>
+      
       <td className="p-3">{candidate.email}</td>
       <td className="p-3">{candidate?.offerLetterSent || "Pending..."}</td>
       <td className="p-3">{candidate?.offerLetterAccepted || "Pending..."}</td>

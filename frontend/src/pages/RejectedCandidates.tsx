@@ -164,14 +164,15 @@ const RejectedCandidates = () => {
                   <th className="p-3">Phone</th>
                   <th className="p-3">status</th>
                   <th className="p-3">Comment</th>
-                  <th className="p-3">LinkedIn Age</th>
+                  {/* <th className="p-3">LinkedIn Age</th> */}
                   <th className="p-3">Joining Date</th>
                   <th className="p-3">Duration</th>
-                  <th className="p-3">Field Type</th>
+                  <th className="p-3">Contact Duration</th>
+                  <th className="p-3">Email</th>
                   <th className="p-3">Offer Letter Sent</th>
                   <th className="p-3">Offer Letter Accepted</th>
                   <th className="p-3">Candidate Enrolled</th>
-                  <th className="p-3">Email</th>
+                  
                   <th className="p-3">LinkedIn Profile</th>
                   <th className="p-3">LinkedIn URL</th>
                   <th className="p-3">Job Board</th>
