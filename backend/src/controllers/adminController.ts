@@ -17,7 +17,11 @@ interface LoginResponse {
 
 export const logoutController = async (req: Request, res: Response) => {
   try {
-    res.clearCookie("token");
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+    });
     res.status(200).json({ message: "Logout successful" });
   } catch (e) {
     console.log(e);
