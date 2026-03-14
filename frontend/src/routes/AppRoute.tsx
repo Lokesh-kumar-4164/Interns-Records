@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
-import { useEffect,useState } from "react";
-import {useLoginStore}  from "../store/authStore";
+import { useEffect, useState } from "react";
+import { useLoginStore } from "../store/authStore";
 import AddCandidate from "../pages/AddCandidate";
 import AllCandidate from "../pages/AllCandidate";
 import LoginPage from "../pages/Login";
@@ -14,8 +14,8 @@ import Loading from "../components/Loading";
 
 const VITE_API_URL = import.meta.env.VITE_API_URL
 const AppRoute = () => {
-  const {user,login} = useLoginStore();
-  
+  const { user, login } = useLoginStore();
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -31,13 +31,13 @@ const AppRoute = () => {
       .finally(() => setLoading(false));
   }, [login]);
 
-  if(user===null) return <LoginPage/>
+  if (user === null) return <LoginPage />
 
 
-  if(loading) return <Loading/>
+  if (loading) return <Loading />
   return (
     <Routes>
-      <Route path="/" element={<LoginPage />} />
+      <Route path="/" element={user === null ? <LoginPage /> : <AllCandidate />} />
       <Route path="/add-candidate" element={<AddCandidate />}></Route>
       <Route path="/all-candidate" element={<AllCandidate />}></Route>
       <Route path="/create-user" element={<CreateUser />}></Route>
