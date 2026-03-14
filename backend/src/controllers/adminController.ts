@@ -15,6 +15,15 @@ interface LoginResponse {
   };
 }
 
+export const logoutController = async (req: Request, res: Response) => {
+  try {
+    res.clearCookie("token");
+    res.status(200).json({ message: "Logout successful" });
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 export const LoginValidationController = async (
   req: Request,
   res: Response,
@@ -34,7 +43,7 @@ export const LoginValidationController = async (
     }
 
     if (person) {
-      const token = jwt.sign({ id:person._id }, process.env.JWT_SECRET_KEY as string, {
+      const token = jwt.sign({ id: person._id }, process.env.JWT_SECRET_KEY as string, {
         expiresIn: "7d",
       });
 
