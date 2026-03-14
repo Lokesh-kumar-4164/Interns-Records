@@ -55,10 +55,10 @@ const AddCandidate = () => {
   const checkMail = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${VITE_API_URL}/admin/check-mail?email=${formData.email}`, {
+      const response = await fetch(`${VITE_API_URL}/admin/check-mail?email=${formData.email.trim()}`, {
         method: "GET",
         credentials: "include",
-        headers: { "Content-Type": "application/json" },
+        
       });
 
 

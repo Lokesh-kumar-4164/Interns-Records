@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Admin from "../models/admin";
+import Candidate from "../models/candidate";
 import PasswordResetOTP from "../models/passwordResetOTP";
 import nodemailer from "nodemailer";
 import bcryptjs from "bcryptjs";
@@ -174,7 +175,15 @@ export const verifyOTP = async (req: Request, res: Response) => {
 export const updatePassword = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
-    const update = await Admin.findOneAndUpdate({ email });
+    if (!email || !password) {
+      return res.status(400).json({ message: "Email and password are required" });
+    }
+    const passwordHash = await bcryptjs.hash(password, 10);
+    const update = await Admin.findOneAndUpdate(
+      { email },
+      { passwordHash },
+      { new: true }
+    );
     if (!update) {
       console.log("Error in db while updating password");
       return res.status(400).json({ message: "Failed to update password" });
@@ -182,6 +191,7 @@ export const updatePassword = async (req: Request, res: Response) => {
     return res.status(200).json({ message: "Password updated successfully" });
   } catch (e) {
     console.log("Error while updating password");
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 
@@ -232,13 +242,17 @@ export const removeUser = async (req: Request, res: Response) => {
 
 export const checkMail = async (req: Request, res: Response) => {
   try {
-    const email = req.query.email as string;
-    const user = await Admin.findOne({ email });
-    if (user) {
+    const email = (req.query.email as string | undefined)?.trim();
+    if (!email) {
+      return res.status(400).json({ message: "Email is required" });
+    }
+    const candidate = await Candidate.findOne({ email: email.toLowerCase() });
+    if (candidate) {
       return res.status(200).json({ message: "Email already exists" });
     }
     return res.status(200).json({ message: "Email available" });
   } catch (e) {
     console.log(e);
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
