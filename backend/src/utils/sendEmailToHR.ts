@@ -6,8 +6,8 @@ export const sendJoiningReminderEmailToHR = async (candidate: any) => {
       "https://api.brevo.com/v3/smtp/email",
       {
         sender: {
-          email: process.env.BREVO_EMAIL,
-          name: "HR Team",
+          email: process.env.BREVO_EMAIL_HR,
+          name: "Centennial Infotech HR",
         },
         to: [
           {
@@ -26,11 +26,12 @@ This candidate is scheduled to join tomorrow.`,
       {
         headers: {
           "Content-Type": "application/json",
-          "api-key": process.env.BREVO_API_KEY,
+          "api-key": process.env.BREVO_API_KEY_HR,
         },
       }
     );
 
+    console.log("HR reminder mail sent via Brevo API");
   } catch (error: any) {
     console.error("Brevo API failed:", error.response?.data || error.message);
     throw error;
